@@ -29,6 +29,8 @@ import Menu, { MenuItem } from 'material-ui/Menu'; //
 import MenuIcon from 'material-ui-icons/Menu';
 import AccountCircle from 'material-ui-icons/AccountCircle';
 
+import { Link } from 'react-router-dom';
+
 import 'typeface-roboto' 
 
 const styles = {
@@ -102,7 +104,12 @@ class MenuAppBar extends React.Component {
                     onClose={this.handleClose}
                     >
                     <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                    {/* <MenuItem onClick={this.handleClose}> */}
+                    <MenuItem>
+                      <Link to="/login">
+                        Log Out
+                      </Link>
+                    </MenuItem>
                     </Menu>
                 </div>
             </Toolbar>
