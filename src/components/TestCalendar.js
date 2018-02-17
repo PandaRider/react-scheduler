@@ -6,7 +6,7 @@
 import React from 'react';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment'; // moment is a frequently used JavaScript library used to enable Date objects
-import events from './events'; // events is the sample data.
+// import events from '../reducers/events'; // events is the sample data.
 import 'react-big-calendar/lib/css/react-big-calendar.css'; // boilerplate. Required by library
 
 // Lesson: Integrating third party components
@@ -18,7 +18,7 @@ BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 const Timeslots = props => (
   <BigCalendar
     {...props}
-    events={events}
+    events={props.events}
     step={30}
     timeslots={1}
     min={new Date(2018, 0, 30, 8, 0, 0)}
