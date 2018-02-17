@@ -8,8 +8,10 @@ import configureStore from './store/configureStore';
 // index.js is the entry point of all React apps. It's also known as the root component.
 // I don't usually modify this file except for global libraries (i.e. Redux, React-Router).
 
+const store = configureStore();
+
 ReactDOM.render(
-    <Provider store={configureStore()}>
+    <Provider store={store}>
         <App />
     </Provider>,
     document.getElementById('root')

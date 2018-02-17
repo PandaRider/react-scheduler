@@ -1,19 +1,23 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import Timeslots from './TestCalendar';
 import MenuAppBar from './MenuAppBar';
 import '../styles/styles.css';
 
 // This is the Home page after the user logs in. 
-
-// TODO: might need to change to Class based component
-const Home = (props) => (
-    <div>
-        <MenuAppBar />
-        <div className="example">
-            <Timeslots events={props.events}/>
-        </div>
-    </div>
-)
+class Home extends React.Component {
+    render() {
+        return (
+            <div>
+                <MenuAppBar />
+                <div className="example">
+                    <Timeslots events={this.props.events}/>
+                </div>
+            </div>
+        )
+    }
+}
 
 
 function mapStateToProps(state) {
@@ -22,7 +26,4 @@ function mapStateToProps(state) {
     };
 }
   
-// export default connect(mapStateToProps)(Home);
-  
-
-export default Home;
+export default connect(mapStateToProps)(Home);

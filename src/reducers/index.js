@@ -5,7 +5,7 @@ import EventsReducer from './events';
 
 const rootReducer = combineReducers({
   events: EventsReducer,
-  // router: routerReducer
+  router: routerReducer
 });
 
 export default rootReducer;

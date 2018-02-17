@@ -11,7 +11,7 @@ export default function configureStore(initialState) {
     const store = createStore(
         rootReducer,
         initialState,
-        // compose(routerMiddleware(history))
+        compose(applyMiddleware(routerMiddleware(history)))
     )
     return store;
 }

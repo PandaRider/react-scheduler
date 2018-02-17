@@ -1,22 +1,27 @@
 import React, { Component } from 'react';
-import Home from './components/Home';
 import {
   BrowserRouter as Router,
-  // ConnectedRouter,
   Route,
   Link,
   Switch,
   Redirect
 } from 'react-router-dom';
+import { ConnectedRouter } from 'react-router-redux';
 import { connect } from 'react-redux';
-import history from './store/configureStore'
+
+import Home from './components/Home';
+import Login from './containers/Login';
+import { history } from './store/configureStore'
 
 class App extends Component {
   render() {
     return (
-      // <ConnectedRouter>
-        <Home events={this.props.events}/>
-      // </ConnectedRouter>
+      <ConnectedRouter history={history}>
+        <div>
+          <Route exact path="/" component={ Home }/>
+          <Route path="/login" component={ Login } />
+        </div>
+      </ConnectedRouter>
     );
   }
 }
