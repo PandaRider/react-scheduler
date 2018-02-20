@@ -1,4 +1,4 @@
-// See example: 
+// See example:
 // https://redux-form.com/7.2.3/examples/material-ui/
 
 import React from 'react';
@@ -9,63 +9,63 @@ import CustomTextField from '../components/TextField';
 import * as Actions from '../actions';
 
 const validate = (values) => {
-    const errors = {};
-  
-    if (!values.email) {
-        errors.email = "Please enter an email.";
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        errors.email = 'Invalid email address'
-    }
-  
-    if (!values.password) {
-        errors.password = "Please enter a password.";
-    }
+  const errors = {};
 
-    return errors;
+  if (!values.email) {
+    errors.email = 'Please enter an email.';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email address';
+  }
+
+  if (!values.password) {
+    errors.password = 'Please enter a password.';
+  }
+
+  return errors;
 };
 
 class Login extends React.Component {
     myHandleSubmit = (values) => {
-        console.log(values);
-        this.props.signInUser(values);
+      console.log(values);
+      this.props.signInUser(values);
     }
 
     render() {
-        const { handleSubmit, pristine, submitting } = this.props
-        return (
-            <form onSubmit={handleSubmit(this.myHandleSubmit)}>
-                <div>
-                    <Field 
-                        name="email" 
-                        component={CustomTextField}
-                        placeholder="Username"
-                    />
-                </div>
-                <div>
-                    <Field 
-                        name="password" 
-                        component={CustomTextField}
-                        type="password"
-                        placeholder="Password"
-                    />
-                </div>
-                <div>
-                <button type="submit" disabled={pristine || submitting}>
+      const { handleSubmit, pristine, submitting } = this.props;
+      return (
+        <form onSubmit={handleSubmit(this.myHandleSubmit)}>
+          <div>
+            <Field
+              name="email"
+              component={CustomTextField}
+              placeholder="Username"
+            />
+          </div>
+          <div>
+            <Field
+              name="password"
+              component={CustomTextField}
+              type="password"
+              placeholder="Password"
+            />
+          </div>
+          <div>
+            <button type="submit" disabled={pristine || submitting}>
                     Submit
-                </button>
-                </div>
-            </form>
-        );
+            </button>
+          </div>
+        </form>
+      );
     }
 }
 
 function mapStateToProps(state) {
-    return {
-        authenticationError: state.auth.error
-    }
-  }
+  return {
+    authenticationError: state.auth.error,
+  };
+}
 
-export default connect(mapStateToProps,Actions)(reduxForm({ 
-    form: 'login',
-    validate
+export default connect(mapStateToProps, Actions)(reduxForm({
+  form: 'login',
+  validate,
 })(Login));
