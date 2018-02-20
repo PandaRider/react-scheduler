@@ -28,10 +28,10 @@ import IconButton from 'material-ui/IconButton';
 import Menu, { MenuItem } from 'material-ui/Menu'; // 
 import MenuIcon from 'material-ui-icons/Menu';
 import AccountCircle from 'material-ui-icons/AccountCircle';
-
+import 'typeface-roboto' 
 import { Link } from 'react-router-dom';
 
-import 'typeface-roboto' 
+import * as Actions from '../actions';
 
 const styles = {
     root: {
@@ -64,6 +64,10 @@ class MenuAppBar extends React.Component {
     handleClose = () => {
       this.setState({ anchorEl: null });   // Do understand setState receives an object thus the curly brackets.
     };
+
+    handleLogOut = () => {
+        this.props.signOutUser();
+    }
   
     render() {
       const { classes } = this.props;       // ES6 Deconstruction. This is extremely common in React.
