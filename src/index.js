@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 
 // index.js is the entry point of all React apps. It's also known as the root component.
@@ -11,12 +11,9 @@ import configureStore from './store/configureStore';
 const store = configureStore();
 
 ReactDOM.render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
-    document.getElementById('root')
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root'),
 );
 registerServiceWorker();
-
-
-

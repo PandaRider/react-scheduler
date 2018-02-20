@@ -1,4 +1,4 @@
-export default function() {
+export default function () {
   return [
     {
       id: 0,
@@ -18,15 +18,12 @@ export default function() {
       start: new Date(2018, 0, 29, 11, 30, 0),
       end: new Date(2018, 0, 29, 13, 0, 0),
     },
-    
     {
       id: 3,
       title: 'Computer System Engineering',
       start: new Date(2018, 0, 30, 11, 30, 0),
       end: new Date(2018, 0, 30, 13, 0, 0),
-  
     },
-  
     {
       id: 4,
       title: 'Probability & Statistics',
@@ -91,5 +88,5 @@ export default function() {
       start: new Date(2018, 2, 20, 19, 30, 0),
       end: new Date(2018, 2, 22, 2, 0, 0),
     },
-  ]
+  ];
 }

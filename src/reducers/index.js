@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
   auth: AuthReducer,
   form: FormReducer,
   events: EventsReducer,
-  router: routerReducer
+  router: routerReducer,
 });
 
 export default rootReducer;

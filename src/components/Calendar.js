@@ -1,7 +1,7 @@
-// Demo from https://github.com/intljusticemission/react-big-calendar/blob/master/examples/App.js 
+// Demo from https://github.com/intljusticemission/react-big-calendar/blob/master/examples/App.js
 // and https://github.com/intljusticemission/react-big-calendar/blob/master/examples/demos/timeslots.js
 // and https://github.com/intljusticemission/react-big-calendar/blob/master/examples/styles.less
-// Documentation from http://intljusticemission.github.io/react-big-calendar/examples/index.html 
+// Documentation from http://intljusticemission.github.io/react-big-calendar/examples/index.html
 
 import React from 'react';
 import BigCalendar from 'react-big-calendar';
@@ -17,7 +17,7 @@ BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 
 const Timeslots = props => (
   <BigCalendar
-    {...props}                       // ES6 spread operator
+    {...props}
     events={props.events}
     step={30}
     timeslots={1}
@@ -27,6 +27,6 @@ const Timeslots = props => (
     views={['week', 'day']}
     defaultDate={new Date(2018, 0, 30)}
   />
-)
+);
 
 export default Timeslots;

@@ -25,7 +25,7 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
-import Menu, { MenuItem } from 'material-ui/Menu'; // 
+import Menu, { MenuItem } from 'material-ui/Menu';
 import MenuIcon from 'material-ui-icons/Menu';
 import AccountCircle from 'material-ui-icons/AccountCircle';
 import 'typeface-roboto' 
@@ -47,15 +47,15 @@ const styles = {
   };
 
 class MenuAppBar extends React.Component {
-    state = {               // The "state" here may look different from the one from the videos or offical docs.
-      anchorEl: false,      
-    };
-    // constructor(props) {                     //this is the equivalent syntax
-    //     super(props)
-    //     this.state = {
-    //         anchorEl: false
-    //     }
-    // }
+    // state = {               // The "state" here may look different from the one from the videos or offical docs.
+    //   anchorEl: false,      
+    // };
+    constructor(props) {                     //this is the equivalent syntax
+        super(props)
+        this.state = {
+            anchorEl: false
+        }
+    }
 
     handleMenu = event => {
       this.setState({ anchorEl: event.currentTarget }); 
