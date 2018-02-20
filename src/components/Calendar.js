@@ -10,14 +10,14 @@ import moment from 'moment'; // moment is a frequently used JavaScript library u
 import 'react-big-calendar/lib/css/react-big-calendar.css'; // boilerplate. Required by library
 
 // Lesson: Integrating third party components
-// Task: Read and understand the props I've used. Which ones do you need to keep, which ones to remove?
+// Task: Read and understand the props used. Which ones do you need to keep, which ones to remove?
 // Suggested reference: https://github.com/intljusticemission/react-big-calendar/blob/master/examples/demos/selectable.js
 
 BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 
 const Timeslots = props => (
   <BigCalendar
-    {...props}
+    {...props}                       // ES6 spread operator
     events={props.events}
     step={30}
     timeslots={1}

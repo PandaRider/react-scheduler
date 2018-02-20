@@ -1,18 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Timeslots from './TestCalendar';
-import MenuAppBar from './MenuAppBar';
+import Calendar from '../components/Calendar';
+import MenuAppBar from '../components/MenuAppBar';
 import '../styles/styles.css';
 
-// This is the Home page after the user logs in. 
-class Home extends React.Component {
+// This is the MainControl "Home" page after the user logs in. 
+class MainControl extends React.Component {
     render() {
         return (
             <div>
                 <MenuAppBar />
                 <div className="example">
-                    <Timeslots events={this.props.events}/>
+                    <Calendar events={this.props.events}/>
                 </div>
             </div>
         )
@@ -26,4 +26,4 @@ function mapStateToProps(state) {
     };
 }
   
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(MainControl);
