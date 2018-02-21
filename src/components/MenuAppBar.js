@@ -64,7 +64,7 @@ class MenuAppBar extends React.Component {
     };
 
     handleLogOut = () => {
-      this.props.signOutUser();
+      this.props.signOutAction();
     }
 
     render() {
@@ -107,7 +107,7 @@ class MenuAppBar extends React.Component {
                 >
                   <MenuItem onClick={this.handleClose}>Profile</MenuItem>
                   {/* <MenuItem onClick={this.handleClose}> */}
-                  <MenuItem>
+                  <MenuItem onClick={this.handleLogOut}>
                     <Link to="/login">
                         Log Out
                     </Link>

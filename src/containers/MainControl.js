@@ -8,13 +8,14 @@ import { connect } from 'react-redux';
 import Calendar from '../components/Calendar';
 import MenuAppBar from '../components/MenuAppBar';
 import '../styles/styles.css';
+import * as Actions from '../actions';
 
 // This is the MainControl "Home" page after the user logs in.
 class MainControl extends React.Component {
   render() {
     return (
       <div>
-        <MenuAppBar />
+        <MenuAppBar signOutAction={this.props.signOutUser} />
         <div className="example">
           <Calendar events={this.props.events} />
         </div>
@@ -30,4 +31,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(MainControl);
+export default connect(mapStateToProps, Actions)(MainControl);
