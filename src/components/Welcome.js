@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Welcome = () => (
-  <div>
+  <div id="container">
     Welcome! Please log in to use app.
-    <Link to="/main"> Login </Link>
+    <Link id="loginLink" to="/main">Login</Link>
   </div>
 );
 

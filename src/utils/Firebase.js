@@ -18,7 +18,8 @@ async function getCourses() {
 
   let items = [];
   snap.forEach(child => {
-    let course = new Course(child.key, child.val().name);
+    let { id, title, start, end, desc } = child.val();
+    let course = new Course(child.key, id, title, new Date(start), new Date(end));
     items.push(course);
   });
   return items;
@@ -26,7 +27,8 @@ async function getCourses() {
 
 function addCourse(course) {
   let ref = firebaseApp.database().ref(COURSES);
-  ref.push(course.asObject());
+  console.log(course.asFirebaseObject());
+  ref.push(course.asFirebaseObject());
 }
 
 function removeCourse(course) {
@@ -36,8 +38,12 @@ function removeCourse(course) {
 
 
 function testAddCourse() {
-  addCourse(new Course(null, '10.009', 'Digital World'));
-  addCourse(new Course(null, '10.010', 'Digital World 2'));
+  let c0 = new Course(null, -1, 'Heh', new Date(), new Date());
+  let c1 = new Course(null, 0, 'Software Construction', new Date(2018, 0, 29, 8, 30, 0), new Date(2018, 0, 29, 10, 0, 0));
+  let c2 = new Course(null, 6, 'Meeting', new Date(2018, 2, 12, 10, 30, 0, 0), new Date(2018, 2, 12, 12, 30, 0, 0), 'Pre-meeting meeting, to prepare for the meeting');
+  addCourse(c0);
+  addCourse(c1);
+  addCourse(c2);
 }
 
 async function testGetCourse() {
@@ -53,7 +59,7 @@ function testRemoveCourse(course) {
 async function testCourse() {
   testAddCourse();
   let courses = await testGetCourse();
-  testRemoveCourse(courses[1]);
+  testRemoveCourse(courses[0]);
 }
 
 //testCourse();

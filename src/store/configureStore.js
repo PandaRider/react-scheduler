@@ -13,10 +13,11 @@ import * as Actions from '../actions';
 export const history = createHistory();
 
 export default function configureStore(initialState) {
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   const store = createStore(
     rootReducer,
     initialState,
-    compose(applyMiddleware(
+    composeEnhancers(applyMiddleware(
       reduxThunk,
       routerMiddleware(history),
     )),

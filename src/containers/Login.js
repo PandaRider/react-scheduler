@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import CustomTextField from '../components/TextField';
 import * as Actions from '../actions';
 
+import '../styles/Login.css';
+
 const validate = (values) => {
   const errors = {};
 
@@ -33,28 +35,31 @@ class Login extends React.Component {
     render() {
       const { handleSubmit, pristine, submitting } = this.props;
       return (
-        <form onSubmit={handleSubmit(this.myHandleSubmit)}>
-          <div>
-            <Field
-              name="email"
-              component={CustomTextField}
-              placeholder="Username"
-            />
-          </div>
-          <div>
-            <Field
-              name="password"
-              component={CustomTextField}
-              type="password"
-              placeholder="Password"
-            />
-          </div>
-          <div>
-            <button type="submit" disabled={pristine || submitting}>
-                    Submit
-            </button>
-          </div>
-        </form>
+        <div id="container">
+          <form id="form" onSubmit={handleSubmit(this.myHandleSubmit)}>
+            <div>
+              <Field
+                name="email"
+                component={CustomTextField}
+                placeholder="Username"
+              />
+            </div>
+            <div>
+              <Field
+                name="password"
+                component={CustomTextField}
+                type="password"
+                placeholder="Password"
+              />
+            </div>
+            <div>
+              <button id="submit" type="submit" disabled={pristine || submitting}>
+                Submit
+              </button>
+            </div>
+          </form>
+          <p id="label">{this.props.authenticationError}</p>
+        </div>
       );
     }
 }

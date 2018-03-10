@@ -1,14 +1,21 @@
 export default class Course {
-  constructor(key, id, name) {
+  constructor(key, id, title, start, end, desc='') {
     this.key = key;
     this.id = id;
-    this.name = name;
+    this.title = title;
+    this.start = start;
+    this.end = end;
+    this.desc = desc;
   }
 
-  asObject() {
+  asFirebaseObject() {
+    let { id, title, start, end, desc } = this;
     return {
-      id: this.id,
-      name: this.name,
+      id,
+      title,
+      desc,
+      start: start.toString(),
+      end: end.toString(),
     };
   }
 }
