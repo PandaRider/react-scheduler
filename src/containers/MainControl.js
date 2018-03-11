@@ -10,7 +10,7 @@ import MenuAppBar from '../components/MenuAppBar';
 import '../styles/styles.css';
 import * as Actions from '../actions';
 
-// This is the MainControl "Home" page after the user logs in.
+// This is the MainControl "Main" page after the user logs in.
 class MainControl extends React.Component {
   render() {
     return (
