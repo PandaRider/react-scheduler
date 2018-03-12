@@ -15,3 +15,13 @@ div#root>div {
   align-items: center;
   margin: auto;
 }
+
+.example {
+    font-size: 14px;
+    /* padding: 0 40px; */
+    max-width: 1200px;
+    width: 100%;
+    margin: auto;
+    flex: 1;
+}
+  
