@@ -5,6 +5,8 @@ export const SIGN_OUT_USER = 'SIGN_OUT_USER';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const AUTH_USER = 'AUTH_USER';
 
+export * from './menu_actions';
+
 const config = {
   apiKey: 'AIzaSyDvB-l32VkXryYRO-TGurfuXVH2fAWavd4',
   authDomain: 'my-react-scheduler.firebaseapp.com',
@@ -66,7 +68,7 @@ export function verifyAuth() {
   return (dispatch) => {
     Firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        // console.log('here');
+        console.log(user.uid);
         dispatch(authUser());
       } else {
         dispatch(signOutUser());

@@ -5,20 +5,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import * as Actions from '../actions';
 import Calendar from '../components/Calendar';
 import MenuAppBar from '../components/MenuAppBar';
+import Subjects from '../components/Subjects';
 import '../styles/styles.css';
-import * as Actions from '../actions';
 
 // This is the MainControl "Main" page after the user logs in.
 class MainControl extends React.Component {
   render() {
     return (
       <div>
-        <MenuAppBar signOutAction={this.props.signOutUser} />
-        <div className="example">
-          <Calendar events={this.props.events} />
-        </div>
+        <MenuAppBar 
+          signOutAction={this.props.signOutUser} 
+          handleChangeTabs={this.props.changeTab}
+          value={this.props.tab} 
+        />
+        {this.props.tab === 0 ? 
+          <div className="example">
+            <Calendar events={this.props.events} />
+          </div> : 
+          <Subjects />
+        }
       </div>
     );
   }
@@ -28,6 +36,7 @@ class MainControl extends React.Component {
 function mapStateToProps(state) {
   return {
     events: state.events,
+    tab: state.menu.tab
   };
 }
 

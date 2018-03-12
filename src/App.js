@@ -31,13 +31,13 @@ const PrivateRoute = ({ component: Component, authenticated, ...props }) => (
 );
 
 const PublicRoute = ({ component: Component, authenticated, ...props }) => {
-  console.log(`app auth: ${authenticated}`);
+  // console.log(`app auth: ${authenticated}`);
   return (
     <Route
       {...props}
       render={props => (authenticated === false
               ? <Component {...props} />
-              : <Redirect to="/" />)
+              : <Redirect to="/main" />)
         }
     />
   );

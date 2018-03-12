@@ -5,8 +5,8 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 
-import CustomTextField from '../components/TextField';
 import * as Actions from '../actions';
+import CustomTextField from '../components/TextField';
 
 const validate = (values) => {
   const errors = {};
