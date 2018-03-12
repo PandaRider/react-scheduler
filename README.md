@@ -3,6 +3,8 @@
 1. cd to project directory.
 2. Run `npm install`.
 3. Run `npm start`.
+4. Run `yarn test` for running all tests.
+5. Run `yarn test -- --coverage` for coverage report.
 
 ## Essential guides
 
@@ -14,7 +16,7 @@
 * [React Router](https://reacttraining.com/react-router/web/guides/quick-start) - Popular open-source routing for multi-page apps.
 * [React Big Calendar](http://intljusticemission.github.io/react-big-calendar/examples/index.html) – Popular open-source customizable calendar.
 * [Material-UI](https://material-ui-next.com/api/app-bar/) – Material UI library for React apps. 
-* [Firebase guide](https://firebase.google.com/docs/database/web/start), [Firebase guide](https://firebase.google.com/docs/reference/js/firebase.database) – Firebase backend for auth, database and cloud functions.
+* [Firebase guide](https://firebase.google.com/docs/database/web/start), [Firebase reference](https://firebase.google.com/docs/reference/js/firebase.database) – Firebase backend for auth, database and cloud functions.
 * [Redux-Form](https://redux-form.com/7.2.3/examples/) - Popular open-source controlled forms integrated with redux.
 
 ## Dev tool references

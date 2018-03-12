@@ -31,13 +31,13 @@ const PrivateRoute = ({ component: Component, authenticated, ...props }) => (
 );
 
 const PublicRoute = ({ component: Component, authenticated, ...props }) => {
-  console.log(`app auth: ${authenticated}`);
+  // console.log(`app auth: ${authenticated}`);
   return (
     <Route
       {...props}
       render={props => (authenticated === false
               ? <Component {...props} />
-              : <Redirect to="/" />)
+              : <Redirect to="/main" />)
         }
     />
   );
@@ -46,14 +46,14 @@ const PublicRoute = ({ component: Component, authenticated, ...props }) => {
 class App extends React.Component {
   render() {
     return (
-      <ConnectedRouter history={history}>
-        <div>
-          <Route exact path="/" component={Welcome} />
-          <PublicRoute authenticated={this.props.authenticated} path="/login" component={Login} />
-          <PrivateRoute authenticated={this.props.authenticated} path="/main" component={MainControl} />
-          <PrivateRoute authenticated={this.props.authenticated} path="/profile" component={Profile} />
-        </div>
-      </ConnectedRouter>
+        <ConnectedRouter history={history}>
+          <div>
+            <Route exact path="/" component={Welcome} />
+            <PublicRoute authenticated={this.props.authenticated} path="/login" component={Login} />
+            <PrivateRoute authenticated={this.props.authenticated} path="/main" component={MainControl} />
+            <PrivateRoute authenticated={this.props.authenticated} path="/profile" component={Profile} />
+          </div>
+        </ConnectedRouter>
     );
   }
 }

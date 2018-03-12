@@ -6,6 +6,8 @@ export const SIGN_OUT_USER = 'SIGN_OUT_USER';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const AUTH_USER = 'AUTH_USER';
 
+export * from './menu_actions';
+
 export function authUser() {
   return {
     type: AUTH_USER,
@@ -59,7 +61,7 @@ export function verifyAuth() {
   return (dispatch) => {
     Firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        // console.log('here');
+        console.log(user.uid);
         dispatch(authUser());
       } else {
         dispatch(signOutUser());

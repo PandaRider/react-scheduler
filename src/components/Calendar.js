@@ -26,6 +26,7 @@ const Timeslots = props => (
     defaultView="week"
     views={['week', 'day']}
     defaultDate={new Date(2018, 0, 30)}
+    onSelectEvent={slotInfo => alert(slotInfo.title) }
   />
 );
 
