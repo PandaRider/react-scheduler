@@ -23,7 +23,7 @@ class MainControl extends React.Component {
           value={this.props.tab} 
         />
         {this.props.tab === 0 ? 
-          <div id="calendarContainer">
+          <div class="example">
             <Calendar events={this.props.events} />
           </div> : 
           <Subjects />
