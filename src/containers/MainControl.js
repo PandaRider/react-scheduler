@@ -10,19 +10,20 @@ import Calendar from '../components/Calendar';
 import MenuAppBar from '../components/MenuAppBar';
 import Subjects from '../components/Subjects';
 import '../styles/styles.css';
+import '../styles/MainControl.css';
 
 // This is the MainControl "Main" page after the user logs in.
 class MainControl extends React.Component {
   render() {
     return (
-      <div>
+      <div class="container" id="mainContainer">
         <MenuAppBar 
           signOutAction={this.props.signOutUser} 
           handleChangeTabs={this.props.changeTab}
           value={this.props.tab} 
         />
         {this.props.tab === 0 ? 
-          <div className="example">
+          <div id="calendarContainer">
             <Calendar events={this.props.events} />
           </div> : 
           <Subjects />

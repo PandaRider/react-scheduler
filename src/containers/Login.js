@@ -35,7 +35,7 @@ class Login extends React.Component {
     render() {
       const { handleSubmit, pristine, submitting } = this.props;
       return (
-        <div id="container">
+        <div class="container">
           <form id="form" onSubmit={handleSubmit(this.myHandleSubmit)}>
             <div>
               <Field

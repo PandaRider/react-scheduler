@@ -8,7 +8,7 @@ div#root>div {
   align-items: center;
 }
 
-#container {
+div.container {
   display: flex;
   flex-direction: column;
   justify-content: center;

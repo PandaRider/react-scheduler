@@ -4,7 +4,7 @@ import Course from './objects/Course';
 const config = require('./firebase_config.json');
 const firebaseApp = Firebase.initializeApp(config);
 
-const COURSES = 'courses';
+const COURSES = 'courses/';
 
 function getSnap(ref) {
   return new Promise(resolve => {
@@ -29,6 +29,16 @@ function addCourse(course) {
   let ref = firebaseApp.database().ref(COURSES);
   console.log(course.asFirebaseObject());
   ref.push(course.asFirebaseObject());
+}
+
+function updateCourse(course) {
+  if (course.key == null) { // use == to catch both null and undefined
+    console.error("Error updating course (key not found):", course);
+    return;
+  }
+
+  let ref = firebaseApp.database().ref(COURSES + course.key);
+  ref.set(course.asFirebaseObject());
 }
 
 function removeCourse(course) {
@@ -56,10 +66,19 @@ function testRemoveCourse(course) {
   removeCourse(course);
 }
 
+async function testUpdateCourse() {
+  let courses = await getCourses();
+  let course = courses[0];
+  course.id = 3;
+  updateCourse(course);
+}
+
 async function testCourse() {
   testAddCourse();
   let courses = await testGetCourse();
   testRemoveCourse(courses[0]);
+  testUpdateCourse();
 }
+
 
 //testCourse();
