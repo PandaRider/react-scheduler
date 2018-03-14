@@ -1,3 +1,4 @@
+import React from 'react';
 import Auth from '../reducers/auth';
 import { AUTH_USER, SIGN_OUT_USER } from '../actions';
 

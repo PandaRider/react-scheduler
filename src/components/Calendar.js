@@ -3,10 +3,11 @@
 // and https://github.com/intljusticemission/react-big-calendar/blob/master/examples/styles.less
 // Documentation from http://intljusticemission.github.io/react-big-calendar/examples/index.html
 
-import React from 'react';
+import React, { Component } from 'react';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment'; // moment is a frequently used JavaScript library used to enable Date objects
 // import events from '../reducers/events'; // events is the sample data.
+import Dialog, { DialogTitle } from 'material-ui/Dialog';
 import 'react-big-calendar/lib/css/react-big-calendar.css'; // boilerplate. Required by library
 
 // Lesson: Integrating third party components
@@ -15,19 +16,55 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'; // boilerplate. Requ
 
 BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
 
-const Timeslots = props => (
-  <BigCalendar
-    {...props}
-    events={props.events}
-    step={30}
-    timeslots={1}
-    min={new Date(2018, 0, 30, 8, 0, 0)}
-    max={new Date(2018, 0, 30, 18, 0, 0)}
-    defaultView="week"
-    views={['week', 'day']}
-    defaultDate={new Date(2018, 0, 30)}
-    onSelectEvent={slotInfo => alert(slotInfo.title) }
-  />
-);
+class CalendarWrapper extends Component {
+  constructor() {
+    super();
+    this.state = {
+      open: false,
+      slotInfo: null,
+    };
+  }
+  handleSlot = (slotInfo) => {
+    console.log(this.state.open);
+    this.setState({ open: true, slotInfo });
+  }
+  render() {
+    return (
+      <div>
+        <Dialog open={this.state.open} onClose={() => this.setState({ open: false })}>
+          <DialogTitle>Testing</DialogTitle>
+          {this.state.slotInfo}
+        </Dialog>
+        <BigCalendar
+          {...this.props}
+          events={this.props.events}
+          step={30}
+          timeslots={1}
+          min={new Date(2018, 0, 30, 8, 0, 0)}
+          max={new Date(2018, 0, 30, 18, 0, 0)}
+          defaultView="week"
+          views={['week', 'day']}
+          defaultDate={new Date(2018, 0, 30)}
+          onSelectEvent={slotInfo => this.handleSlot(slotInfo)}
+        />
+      </div>
+    );
+  }
+}
+export default CalendarWrapper;
+// const Timeslots = props => (
+//   <BigCalendar
+//     {...props}
+//     events={props.events}
+//     step={30}
+//     timeslots={1}
+//     min={new Date(2018, 0, 30, 8, 0, 0)}
+//     max={new Date(2018, 0, 30, 18, 0, 0)}
+//     defaultView="week"
+//     views={['week', 'day']}
+//     defaultDate={new Date(2018, 0, 30)}
+//     onSelectEvent={slotInfo => ()}
+//   />
+// );
 
-export default Timeslots;
+// export default Timeslots;
