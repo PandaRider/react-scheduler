@@ -7,7 +7,7 @@ import registerServiceWorker from './registerServiceWorker';
 // I don't usually modify this file except for global libraries (i.e. Redux, React-Router).
 
 ReactDOM.render(
-    <AppWithStore />,
+  <AppWithStore />,
   document.getElementById('root'),
 );
 registerServiceWorker();

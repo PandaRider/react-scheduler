@@ -79,9 +79,9 @@ class MenuAppBar extends React.Component {
               <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
                 <MenuIcon />
               </IconButton>
-              <Tabs  className={classes.flex} value={this.props.value} onChange={(event, val) => this.props.handleChangeTabs(val)}>
+              <Tabs className={classes.flex} value={this.props.value} onChange={(event, val) => this.props.handleChangeTabs(val)}>
                 <Tab label="Current timetable" />
-                <Tab  label="Your classes" />
+                <Tab label="Your classes" />
               </Tabs>
               <div>
                 <IconButton

@@ -1,4 +1,4 @@
-html, body, div#root, div#root>div {
+/* html, body, div#root, div#root>div {
   height: 100%;
   margin: 0;
 }
@@ -14,4 +14,14 @@ div#root>div {
   justify-content: center;
   align-items: center;
   margin: auto;
+}
+ */
+
+.example {
+  font-size: 14px;
+  /* padding: 0 40px; */
+  max-width: 1200px;
+  width: 100%;
+  margin: auto;
+  flex: 1;
 }
