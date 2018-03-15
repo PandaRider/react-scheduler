@@ -36,7 +36,7 @@ class MainControl extends React.Component {
 function mapStateToProps(state) {
   return {
     events: state.events,
-    tab: state.menu.tab
+    tab: state.menu.tab,
   };
 }
 
