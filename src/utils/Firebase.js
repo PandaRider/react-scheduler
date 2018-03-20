@@ -47,7 +47,7 @@ export function removeCourse(course) {
 }
 
 
-function testAddCourse() {
+export function testAddCourse() {
   let c0 = new Course(null, -1, 'Heh', new Date(), new Date());
   let c1 = new Course(null, 0, 'Software Construction', new Date(2018, 0, 29, 8, 30, 0), new Date(2018, 0, 29, 10, 0, 0));
   let c2 = new Course(null, 6, 'Meeting', new Date(2018, 2, 12, 10, 30, 0, 0), new Date(2018, 2, 12, 12, 30, 0, 0), 'Pre-meeting meeting, to prepare for the meeting');

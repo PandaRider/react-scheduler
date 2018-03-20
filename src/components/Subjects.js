@@ -4,9 +4,11 @@ import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Ta
 import Paper from 'material-ui/Paper';
 import Button from 'material-ui/Button';
 import Icon from 'material-ui/Icon';
-// import AddIcon from 'material-ui-icons/Add';
-import IconButton from 'material-ui/IconButton';
-import { getCourses } from '../utils/Firebase';
+import AddIcon from 'material-ui-icons/Add';
+// import IconButton from 'material-ui/IconButton';
+
+import { addCourse, testAddCourse } from '../utils/Firebase';
+import Dialog from './Dialog';
 
 const styles = theme => ({
   root: {
@@ -40,24 +42,22 @@ const data = [
 ];
 
 class Subjects extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      courses: [],
-    };
-    console.log(props.uid);
+  state = {
+    open: false,
   }
 
-  async componentDidMount() {
-    console.log('fetching courses');
-    let courses = await getCourses();
-    console.log(courses);
+  handleAdd = () => {
+
+  }
+  handleClose =() => {
+    this.setState({ open: false });
   }
 
   render() {
     const { classes } = this.props;
     return(
       <div>
+        <Dialog open={this.state.open} onClose={this.handleClose} />
         <Paper className={classes.root}>
           <Table className={classes.table}>
             <TableHead>
@@ -84,11 +84,16 @@ class Subjects extends Component {
             </TableBody>
           </Table>
         </Paper>
-        <IconButton variant="fab" color="primary" aria-label="edit" className={classes.button}>
-        </IconButton>
+        <div>
+          {/* <Button variant="fab" color="secondary" aria-label="edit" className={classes.button}>
+            <Icon>edit_icon</Icon>
+          </Button> */}
+          <Button onClick={() => this.setState({ open: true })} variant="fab" color="primary" aria-label="add" className={classes.button}>
+            <AddIcon />
+          </Button>
+        </div>
       </div>
     );
   }
 }
 export default withStyles(styles)(Subjects);
-

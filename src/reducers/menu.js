@@ -1,4 +1,4 @@
-import { CHANGE_MAIN_TAB } from '../actions/types';
+import { CHANGE_MAIN_TAB, ADD_SUBJECT } from '../actions/types';
 
 const initialState = {
     tab: 0,
@@ -11,6 +11,10 @@ export default function menu(state = initialState, action) {
         //   ...state,
           tab: action.payload
         };
+      case ADD_SUBJECT:
+        return {
+          subjectName: action.payload 
+        }
       default:
         return state;
     }

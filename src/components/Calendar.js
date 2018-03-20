@@ -45,7 +45,8 @@ class CalendarWrapper extends Component {
           defaultView="week"
           views={['week', 'day']}
           defaultDate={new Date(2018, 0, 30)}
-          onSelectEvent={slotInfo => this.handleSlot(slotInfo)}
+          // onSelectEvent={slotInfo => this.handleSlot(slotInfo)}
+          onSelectEvent={() => alert("Any")}
         />
       </div>
     );
