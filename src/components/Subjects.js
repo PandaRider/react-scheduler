@@ -6,10 +6,7 @@ import Button from 'material-ui/Button';
 import Icon from 'material-ui/Icon';
 // import AddIcon from 'material-ui-icons/Add';
 import IconButton from 'material-ui/IconButton';
-
-// const Subjects = props => (
-//   <div>Temporary subjects/classes taught by prof.</div>
-// );
+import { getCourses } from '../utils/Firebase';
 
 const styles = theme => ({
   root: {
@@ -43,6 +40,20 @@ const data = [
 ];
 
 class Subjects extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      courses: [],
+    };
+    console.log(props.uid);
+  }
+
+  async componentDidMount() {
+    console.log('fetching courses');
+    let courses = await getCourses();
+    console.log(courses);
+  }
+
   render() {
     const { classes } = this.props;
     return(

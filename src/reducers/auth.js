@@ -3,6 +3,7 @@ import { AUTH_USER, SIGN_OUT_USER, AUTH_ERROR } from '../actions';
 const initialState = {
   authenticated: false,
   error: null,
+  uid: null,
 };
 
 export default function auth(state = initialState, action) {
@@ -12,6 +13,7 @@ export default function auth(state = initialState, action) {
         ...state,
         authenticated: true,
         error: null,
+        uid: action.uid,
       };
     case SIGN_OUT_USER:
       return {

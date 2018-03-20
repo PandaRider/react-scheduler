@@ -12,7 +12,7 @@ function getSnap(ref) {
   });
 }
 
-async function getCourses() {
+export async function getCourses() {
   let ref = firebaseApp.database().ref(COURSES);
   let snap = await getSnap(ref);
 
@@ -25,13 +25,13 @@ async function getCourses() {
   return items;
 }
 
-function addCourse(course) {
+export function addCourse(course) {
   let ref = firebaseApp.database().ref(COURSES);
   console.log(course.asFirebaseObject());
   ref.push(course.asFirebaseObject());
 }
 
-function updateCourse(course) {
+export function updateCourse(course) {
   if (course.key == null) { // use == to catch both null and undefined
     console.error("Error updating course (key not found):", course);
     return;
@@ -41,7 +41,7 @@ function updateCourse(course) {
   ref.set(course.asFirebaseObject());
 }
 
-function removeCourse(course) {
+export function removeCourse(course) {
   let ref = firebaseApp.database().ref(COURSES);
   ref.child(course.key).remove();
 }
@@ -79,6 +79,3 @@ async function testCourse() {
   testRemoveCourse(courses[0]);
   testUpdateCourse();
 }
-
-
-//testCourse();

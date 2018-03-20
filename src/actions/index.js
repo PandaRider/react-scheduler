@@ -8,9 +8,10 @@ export const AUTH_USER = 'AUTH_USER';
 
 export * from './menu_actions';
 
-export function authUser() {
+export function authUser(uid) {
   return {
     type: AUTH_USER,
+    uid,
   };
 }
 
@@ -62,7 +63,7 @@ export function verifyAuth() {
     Firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         console.log(user.uid);
-        dispatch(authUser());
+        dispatch(authUser(user.uid));
       } else {
         dispatch(signOutUser());
       }

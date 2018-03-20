@@ -26,7 +26,7 @@ class MainControl extends React.Component {
           <div class="example">
             <Calendar events={this.props.events} />
           </div> : 
-          <Subjects />
+          <Subjects uid={this.props.uid} />
         }
       </div>
     );
@@ -37,7 +37,8 @@ class MainControl extends React.Component {
 function mapStateToProps(state) {
   return {
     events: state.events,
-    tab: state.menu.tab
+    tab: state.menu.tab,
+    uid: state.auth.uid,
   };
 }
 
