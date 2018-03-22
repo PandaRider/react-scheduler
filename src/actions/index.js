@@ -4,15 +4,23 @@ import firebaseApp from '../utils/Firebase';
 export const SIGN_IN_USER = 'SIGN_IN_USER';
 export const SIGN_OUT_USER = 'SIGN_OUT_USER';
 export const AUTH_ERROR = 'AUTH_ERROR';
-export const AUTH_USER = 'AUTH_USER';
+export const AUTH_PROF = 'AUTH_PROF';
+export const AUTH_ADMIN = 'AUTH_ADMIN';
 
 export * from './menu_actions';
 
-export function authUser(uid) {
+export function authProf(uid) {
   return {
-    type: AUTH_USER,
+    type: AUTH_PROF,
     uid,
   };
+}
+
+export function authAdmin(uid) {
+  return {
+    type: AUTH_ADMIN,
+    uid,
+  }
 }
 
 export function authError(error) {
@@ -26,7 +34,7 @@ export function signUpUser(credentials) {
   return (dispatch) => {
     Firebase.auth().createUserWithEmailAndPassword(credentials.email, credentials.password)
       .then(() => {
-        dispatch(authUser());
+        dispatch(authProf());
       })
       .catch((error) => {
         // console.log(error);
@@ -50,7 +58,7 @@ export function signInUser(credentials) {
   return (dispatch) => {
     Firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password)
       .then(() => {
-        dispatch(authUser());
+        dispatch(authProf());
       })
       .catch((error) => {
         dispatch(authError(error));
@@ -63,7 +71,7 @@ export function verifyAuth() {
     Firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         console.log(user.uid);
-        dispatch(authUser(user.uid));
+        dispatch(authProf(user.uid));
       } else {
         dispatch(signOutUser());
       }

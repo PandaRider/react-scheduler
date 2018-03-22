@@ -1,4 +1,4 @@
-import { AUTH_USER, SIGN_OUT_USER, AUTH_ERROR } from '../actions';
+import { AUTH_PROF, AUTH_ADMIN, SIGN_OUT_USER, AUTH_ERROR } from '../actions';
 
 const initialState = {
   authenticated: false,
@@ -8,7 +8,7 @@ const initialState = {
 
 export default function auth(state = initialState, action) {
   switch (action.type) {
-    case AUTH_USER:
+    case AUTH_PROF:
       return {
         ...state,
         authenticated: true,

@@ -18,12 +18,13 @@ import MainControl from './containers/MainControl';
 import Login from './containers/Login';
 import Welcome from './components/Welcome';
 import Profile from './containers/Profile';
+import AdminProfile from './containers/AdminProfile';
 import { history } from './store/configureStore';
 
-const PrivateRoute = ({ component: Component, authenticated, ...props }) => (
+const ProfRoute = ({ component: Component, authenticated, ...props }) => (
   <Route
     {...props}
-    render={props => (authenticated === true
+    render={props => (authenticated === "Prof"
               ? <Component {...props} />
               : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />)
           }
@@ -35,13 +36,24 @@ const PublicRoute = ({ component: Component, authenticated, ...props }) => {
   return (
     <Route
       {...props}
-      render={props => (authenticated === false
+      render={props => (authenticated === "Public"
               ? <Component {...props} />
               : <Redirect to="/main" />)
         }
     />
   );
 };
+
+
+const AdminRoute = ({ component: Component, authenticated, ...props }) => (
+  <Route
+    {...props}
+    render={props => (authenticated === "Admin"
+              ? <Component {...props} />
+              : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />)
+          }
+  />
+);
 
 class App extends React.Component {
   render() {
@@ -50,8 +62,9 @@ class App extends React.Component {
           <div>
             <Route exact path="/" component={Welcome} />
             <PublicRoute authenticated={this.props.authenticated} path="/login" component={Login} />
-            <PrivateRoute authenticated={this.props.authenticated} path="/main" component={MainControl} />
-            <PrivateRoute authenticated={this.props.authenticated} path="/profile" component={Profile} />
+            <ProfRoute authenticated={this.props.authenticated} path="/main" component={MainControl} />
+            <ProfRoute authenticated={this.props.authenticated} path="/profile" component={Profile} />
+            <AdminRoute authenticated={this.props.authenticated} path="/admin" component={AdminProfile} />
           </div>
         </ConnectedRouter>
     );
