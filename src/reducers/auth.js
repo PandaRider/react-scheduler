@@ -1,7 +1,8 @@
 import { AUTH_PROF, AUTH_ADMIN, SIGN_OUT_USER, AUTH_ERROR } from '../actions';
 
 const initialState = {
-  authenticated: false,
+  authProf: false,
+  authAdmin: false,
   error: null,
   uid: null,
 };
@@ -11,14 +12,25 @@ export default function auth(state = initialState, action) {
     case AUTH_PROF:
       return {
         ...state,
-        authenticated: true,
+        // authenticated: true,
+        authProf: true,
+        authAdmin: null,
         error: null,
         uid: action.uid,
       };
+    case AUTH_ADMIN:
+      return {
+        ...state,
+        authProf: null,
+        authAdmin: true,
+        error: null,
+        uid: action.uid,
+      }
     case SIGN_OUT_USER:
       return {
         ...state,
-        authenticated: false,
+        authProf: false,
+        authAdmin: false,
         error: null,
       };
     case AUTH_ERROR:

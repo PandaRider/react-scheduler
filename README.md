@@ -23,3 +23,12 @@
 
 * [Jest testing framework](https://facebook.github.io/jest/) - Dev tool for testing. Used by Facebook in production.
 * [ESLint](eslint.org/docs/user-guide/configuring) - Dev tool for linting (the red lines)
+
+## Developer's auth credentials
+
+* Admin
+Username: admin@test.com
+Password: password
+* Prof
+Username: prof@test.com
+Password: password

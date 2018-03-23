@@ -21,22 +21,22 @@ import Profile from './containers/Profile';
 import AdminProfile from './containers/AdminProfile';
 import { history } from './store/configureStore';
 
-const ProfRoute = ({ component: Component, authenticated, ...props }) => (
+const ProfRoute = ({ component: Component, authProf, ...props }) => (
   <Route
     {...props}
-    render={props => (authenticated === "Prof"
+    render={props => (authProf === true
               ? <Component {...props} />
               : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />)
           }
   />
 );
 
-const PublicRoute = ({ component: Component, authenticated, ...props }) => {
+const PublicRoute = ({ component: Component, authAny, ...props }) => {
   // console.log(`app auth: ${authenticated}`);
   return (
     <Route
       {...props}
-      render={props => (authenticated === "Public"
+      render={props => (authAny === false
               ? <Component {...props} />
               : <Redirect to="/main" />)
         }
@@ -45,10 +45,10 @@ const PublicRoute = ({ component: Component, authenticated, ...props }) => {
 };
 
 
-const AdminRoute = ({ component: Component, authenticated, ...props }) => (
+const AdminRoute = ({ component: Component, authAdmin, ...props }) => (
   <Route
     {...props}
-    render={props => (authenticated === "Admin"
+    render={props => (authAdmin === true
               ? <Component {...props} />
               : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />)
           }
@@ -61,10 +61,10 @@ class App extends React.Component {
         <ConnectedRouter history={history}>
           <div>
             <Route exact path="/" component={Welcome} />
-            <PublicRoute authenticated={this.props.authenticated} path="/login" component={Login} />
-            <ProfRoute authenticated={this.props.authenticated} path="/main" component={MainControl} />
-            <ProfRoute authenticated={this.props.authenticated} path="/profile" component={Profile} />
-            <AdminRoute authenticated={this.props.authenticated} path="/admin" component={AdminProfile} />
+            <PublicRoute authAny={this.props.authProf} path="/login" component={Login} />
+            <ProfRoute authProf={this.props.authProf} path="/main" component={MainControl} />
+            <ProfRoute authProf={this.props.authProf} path="/profile" component={Profile} />
+            <AdminRoute authAdmin={this.props.authAdmin} path="/admin" component={AdminProfile} />
           </div>
         </ConnectedRouter>
     );
@@ -73,7 +73,9 @@ class App extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    authenticated: state.auth.authenticated,
+    // authenticated: state.auth.authenticated,
+    authProf: state.auth.authProf,
+    authAdmin: state.auth.authAdmin,
   };
 }
 
