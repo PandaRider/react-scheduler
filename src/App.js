@@ -14,9 +14,10 @@ import {
 import { ConnectedRouter } from 'react-router-redux';
 import { connect } from 'react-redux';
 
+import Welcome from './components/Welcome';
+import ErrorPage from './components/ErrorPage';
 import MainControl from './containers/MainControl';
 import Login from './containers/Login';
-import Welcome from './components/Welcome';
 import Profile from './containers/Profile';
 import AdminProfile from './containers/AdminProfile';
 import { history } from './store/configureStore';
@@ -31,14 +32,14 @@ const ProfRoute = ({ component: Component, authProf, ...props }) => (
   />
 );
 
-const PublicRoute = ({ component: Component, authAny, ...props }) => {
+const PublicRoute = ({ component: Component, authProf, authAdmin, ...props }) => {
   // console.log(`app auth: ${authenticated}`);
   return (
     <Route
       {...props}
-      render={props => (authAny === false
+      render={props => ((authProf === false && authAdmin === false)
               ? <Component {...props} />
-              : <Redirect to="/main" />)
+              : <Redirect to="/error" />)
         }
     />
   );
@@ -55,16 +56,19 @@ const AdminRoute = ({ component: Component, authAdmin, ...props }) => (
   />
 );
 
+// error PublicRoute should be hard coded: Always false/false
 class App extends React.Component {
   render() {
+    let { authAdmin, authProf } = this.props;
     return (
         <ConnectedRouter history={history}>
           <div>
             <Route exact path="/" component={Welcome} />
-            <PublicRoute authAny={this.props.authProf} path="/login" component={Login} />
-            <ProfRoute authProf={this.props.authProf} path="/main" component={MainControl} />
-            <ProfRoute authProf={this.props.authProf} path="/profile" component={Profile} />
-            <AdminRoute authAdmin={this.props.authAdmin} path="/admin" component={AdminProfile} />
+            <PublicRoute authProf={authProf} authAdmin={authAdmin} path="/login" component={Login} />
+            <PublicRoute authProf={false} authAdmin={false} path="/error" component={ErrorPage} />
+            <ProfRoute authProf={authProf} path="/main" component={MainControl} />
+            <ProfRoute authProf={authProf} path="/profile" component={Profile} />
+            <AdminRoute authAdmin={authAdmin} path="/admin" component={AdminProfile} />
           </div>
         </ConnectedRouter>
     );
