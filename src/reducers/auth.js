@@ -14,14 +14,14 @@ export default function auth(state = initialState, action) {
         ...state,
         // authenticated: true,
         authProf: true,
-        authAdmin: null,
+        authAdmin: false,
         error: null,
         uid: action.uid,
       };
     case AUTH_ADMIN:
       return {
         ...state,
-        authProf: null,
+        authProf: false,
         authAdmin: true,
         error: null,
         uid: action.uid,

@@ -5,6 +5,7 @@ const config = require('./firebase_config.json');
 const firebaseApp = Firebase.initializeApp(config);
 
 const COURSES = 'courses/';
+const USERS = 'users';
 
 function getSnap(ref) {
   return new Promise(resolve => {
@@ -55,6 +56,13 @@ export function testAddCourse() {
   addCourse(c1);
   addCourse(c2);
 }
+
+// export function getAuthType(uid) {
+//   let ref = firebaseApp.database().ref('users');
+//   // let auth;
+//   ref.child(uid).child('isAdmin').val
+//   // return auth;
+// }
 
 async function testGetCourse() {
   let courses = await getCourses();

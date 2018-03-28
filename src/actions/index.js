@@ -1,5 +1,5 @@
 import Firebase from 'firebase';
-import firebaseApp from '../utils/Firebase';
+// import { getAuthType } from '../utils/Firebase';
 
 export const SIGN_IN_USER = 'SIGN_IN_USER';
 export const SIGN_OUT_USER = 'SIGN_OUT_USER';
@@ -57,8 +57,18 @@ export function signOutUser() {
 export function signInUser(credentials) {
   return (dispatch) => {
     Firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password)
-      .then(() => {
-        dispatch(authProf());
+      .then((auth) => {
+        // console.log("here");
+        // console.log(auth.uid);
+        // Firebase.database().ref('users').child(auth.uid).child('isAdmin').once('value').then(
+        //   (snapshot) => {
+        //     console.log(snapshot);
+        //     snapshot ? dispatch(authAdmin()) : dispatch(authProf());
+        //   }
+        // )
+        dispatch(authAdmin());
+        // let authType = getAuthType(auth.uid);
+        // authType ? dispatch(authProf()) : dispatch(authAdmin());
       })
       .catch((error) => {
         dispatch(authError(error));
@@ -70,7 +80,10 @@ export function verifyAuth() {
   return (dispatch) => {
     Firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log(user.uid);
+        // let authType = getAuthType(user.uid);
+        // authType ? dispatch(authProf(user.uid)) : dispatch(authAdmin(user.uid));
+
+        // console.log(user.uid);
         dispatch(authProf(user.uid));
       } else {
         dispatch(signOutUser());
