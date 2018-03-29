@@ -17,6 +17,7 @@ export function authProf(uid) {
 }
 
 export function authAdmin(uid) {
+  console.log("all is fine.");
   return {
     type: AUTH_ADMIN,
     uid,
@@ -66,6 +67,15 @@ export function signInUser(credentials) {
         //     snapshot ? dispatch(authAdmin()) : dispatch(authProf());
         //   }
         // )
+
+
+        // console.log("Auth ID is: " + auth.uid);
+        // Firebase.database().ref('users').child(auth.uid).child('isAdmin').once('value',
+        //   (snapshot) => { snapshot.val() ? dispatch(authAdmin(auth.uid)) : dispatch(authProf(auth.uid))})
+
+
+          // (snapshot) => { snapshot.val() ? console.log('okay'): console.log('alright')})
+
         dispatch(authAdmin());
         // let authType = getAuthType(auth.uid);
         // authType ? dispatch(authProf()) : dispatch(authAdmin());

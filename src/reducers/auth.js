@@ -12,7 +12,6 @@ export default function auth(state = initialState, action) {
     case AUTH_PROF:
       return {
         ...state,
-        // authenticated: true,
         authProf: true,
         authAdmin: false,
         error: null,

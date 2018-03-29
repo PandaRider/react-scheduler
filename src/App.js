@@ -59,16 +59,17 @@ const AdminRoute = ({ component: Component, authAdmin, ...props }) => (
 // error PublicRoute should be hard coded: Always false/false
 class App extends React.Component {
   render() {
-    let { authAdmin, authProf } = this.props;
+    let { authProf } = this.props;
+    this.props.authAdmin === true ? console.log('yay') : console.log('boo');
     return (
         <ConnectedRouter history={history}>
           <div>
             <Route exact path="/" component={Welcome} />
-            <PublicRoute authProf={authProf} authAdmin={authAdmin} path="/login" component={Login} />
+            <PublicRoute authProf={authProf} authAdmin={this.props.authAdmin} path="/login" component={Login} />
             <PublicRoute authProf={false} authAdmin={false} path="/error" component={ErrorPage} />
             <ProfRoute authProf={authProf} path="/main" component={MainControl} />
             <ProfRoute authProf={authProf} path="/profile" component={Profile} />
-            <AdminRoute authAdmin={authAdmin} path="/admin" component={AdminProfile} />
+            <AdminRoute authAdmin={this.props.authAdmin} path="/admin" component={AdminProfile} />
           </div>
         </ConnectedRouter>
     );
