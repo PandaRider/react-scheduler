@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as Actions from '../actions';
 import { withStyles } from 'material-ui/styles';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
@@ -7,7 +9,8 @@ import Icon from 'material-ui/Icon';
 import AddIcon from 'material-ui-icons/Add';
 // import IconButton from 'material-ui/IconButton';
 
-import { addCourse, testAddCourse } from '../utils/Firebase';
+import { getCourses } from '../utils/Firebase';
+import CourseTableRow from './CourseTableRow';
 import Dialog from './Dialog';
 
 const styles = theme => ({
@@ -28,19 +31,6 @@ const styles = theme => ({
     position: 'fixed',  }
 });
 
-let id = 0;
-function createData(subject, code, hours, size, room) {
-  id += 1;
-  return { id, subject, code, hours, size, room };
-}
-
-const data = [
-  createData('Advanced math II', 159, 6.0, 24, 4.0),
-  createData('Probability and Statistics', 237, 9.0, 37, 4.3),
-  createData('Machine Learning', 262, 16.0, 24, 6.0),
-  createData('Cryptography (graduate)', 305, 3.7, 67, 4.3),
-];
-
 class Subjects extends Component {
   state = {
     open: false,
@@ -53,6 +43,11 @@ class Subjects extends Component {
     this.setState({ open: false });
   }
 
+  async componentDidMount() {
+    let courses = await getCourses(this.props.uid);
+    this.setState({ courses });
+  }
+
   render() {
     const { classes } = this.props;
     return(
@@ -62,25 +57,16 @@ class Subjects extends Component {
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                <TableCell>Subject</TableCell>
+                <TableCell>Subject name</TableCell>
                 <TableCell numeric>Subject code</TableCell>
-                <TableCell numeric>Lecture/Recitation (hrs/hrs)</TableCell>
                 <TableCell numeric>Class size (no. of students)</TableCell>
-                <TableCell>Room number</TableCell>
+                <TableCell numeric>Cohort-based learning (hrs)</TableCell>
+                <TableCell numeric>Lecture (hrs)</TableCell>
+                <TableCell>Merged lectures</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map(n => {
-                return (
-                  <TableRow key={n.id}>
-                    <TableCell>{n.subject}</TableCell>
-                    <TableCell numeric>{n.code}</TableCell>
-                    <TableCell numeric>{n.hours}</TableCell>
-                    <TableCell numeric>{n.size}</TableCell>
-                    <TableCell numeric>{n.room}</TableCell>
-                  </TableRow>
-                );
-              })}
+              {this._renderCourses()}
             </TableBody>
           </Table>
         </Paper>
@@ -95,5 +81,23 @@ class Subjects extends Component {
       </div>
     );
   }
+
+  _renderCourses() {
+    if (this.state.courses === undefined) return;
+
+    let items = [];
+    for (var i in this.state.courses) {
+      let course = this.state.courses[i];
+      items.push(<CourseTableRow key={course.key} course={course} />);
+    }
+    return items;
+  }
 }
-export default withStyles(styles)(Subjects);
+
+function mapStateToProps(state) {
+  return {
+    uid: state.auth.uid,
+  };
+}
+
+export default connect(mapStateToProps, Actions)(withStyles(styles)(Subjects));
