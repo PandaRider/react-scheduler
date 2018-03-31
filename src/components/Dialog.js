@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as Actions from '../actions';
 import Dialog, { DialogTitle } from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
@@ -10,9 +12,10 @@ import { withStyles } from 'material-ui/styles';
 import NumberFormat from 'react-number-format';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import { addCourse, testAddCourse } from '../utils/Firebase';
+import { addCourse } from '../utils/Firebase';
 import Course from '../utils/objects/Course';
-import constants from '../utils/Constants.js';
+import constants from '../utils/Constants';
+var _ = require('lodash');
 
 /*
   Warning: redux refactor is not good practice (temporary).
@@ -76,13 +79,13 @@ function NumberFormatCustom(props) {
 
 class DialogComponent extends Component {
   state = {
-    name: '',
-    code: '',
-    studentCount: 0,
+    subj_name: '',
+    subj_code: '',
+    student_count: 0,
     expanded: '',
-    cblHours: 0.0,
-    lectureHours: 0.0,
-    mergeLectures: true,
+    cbl_hours: 0.0,
+    lecture_hours: 0.0,
+    merged_lectures: true,
   }
   handleChange = (name) => {
     return (event) => this.setState({
@@ -95,8 +98,9 @@ class DialogComponent extends Component {
     });
   };
   handleSubmit = () => {
-    console.log(this.state);
-    // testAddCourse();
+    let { uid } = this.props;
+    let course = _.pick(this.state, constants.courses.fields)
+    addCourse(uid, course);
   }
   render() {
     const { handleClose, classes, ...other } = this.props;
@@ -109,16 +113,16 @@ class DialogComponent extends Component {
             id="name"
             label="Name"
             className={classes.textField}
-            value={this.state.name}
-            onChange={this.handleChange('name')}
+            value={this.state.subj_name}
+            onChange={this.handleChange('subj_name')}
             margin="normal"
           />
           <TextField
             id="code"
             label="Subject Code"
             className={classes.textField}
-            value={this.state.code}
-            onChange={this.handleChange('code')}
+            value={this.state.subj_code}
+            onChange={this.handleChange('subj_code')}
             margin="normal"
           />
           <TextField
@@ -126,8 +130,8 @@ class DialogComponent extends Component {
             label="Number of students"
             className={classes.textField}
             type="number"
-            value={this.state.studentCount}
-            onChange={this.handleChange('studentCount')}
+            value={this.state.student_count}
+            onChange={this.handleChange('student_count')}
             InputProps={{
               inputComponent: NumberFormatCustom,
             }}
@@ -145,10 +149,10 @@ class DialogComponent extends Component {
                   max={constants.courses.maxHours}
                   step={0.5}
                   defaultValue={0}
-                  value={this.state.cblHours}
-                  onChange={value => this.setState({cblHours: value})}
+                  value={this.state.cbl_hours}
+                  onChange={value => this.setState({cbl_hours: value})}
                 />
-                <Typography className={classes.expansionSecondaryHeading}>{this.state.cblHours.toFixed(1)}</Typography>
+                <Typography className={classes.expansionSecondaryHeading}>{this.state.cbl_hours.toFixed(1)}</Typography>
               </div>
             </ExpansionPanelDetails>
           </ExpansionPanel>
@@ -165,16 +169,16 @@ class DialogComponent extends Component {
                   max={constants.courses.maxHours}
                   step={0.5}
                   defaultValue={0}
-                  value={this.state.lectureHours}
-                  onChange={value => this.setState({lectureHours: value})}
+                  value={this.state.lecture_hours}
+                  onChange={value => this.setState({lecture_hours: value})}
                 />
-                <Typography>{this.state.lectureHours.toFixed(1)}</Typography>
+                <Typography>{this.state.lecture_hours.toFixed(1)}</Typography>
               </div>
               <div className={classes.expansionContainer}>
                 <Typography className={classes.expansionHeading}>Merge</Typography>
                 <Switch
-                  checked={this.state.mergeLectures}
-                  onChange={event => this.setState({mergeLectures: event.target.checked})}
+                  checked={this.state.merged_lectures}
+                  onChange={event => this.setState({merged_lectures: event.target.checked})}
                   color="primary"
                 />
               </div>
@@ -188,4 +192,10 @@ class DialogComponent extends Component {
   }
 }
 
-export default withStyles(styles)(DialogComponent);
+function mapStateToProps(state) {
+  return {
+    uid: state.auth.uid,
+  };
+}
+
+export default connect(mapStateToProps, Actions)(withStyles(styles)(DialogComponent));

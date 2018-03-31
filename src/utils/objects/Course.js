@@ -1,3 +1,5 @@
+// subj_code, subj_name, type, student_count, cbl_hours, lecture_hours, merged_lectures
+
 export default class Course {
   constructor(key, id, title, start, end, desc='') {
     this.key = key;
