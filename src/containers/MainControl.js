@@ -14,6 +14,9 @@ import '../styles/MainControl.css';
 
 // This is the MainControl "Main" page after the user logs in.
 class MainControl extends React.Component {
+  componentDidMount() {
+    
+  }
   render() {
     return (
       <div class="container" id="mainContainer">

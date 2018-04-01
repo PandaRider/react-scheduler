@@ -6,6 +6,11 @@
 4. Run `yarn test` for running all tests.
 5. Run `yarn test -- --coverage` for coverage report.
 
+## Developing with Firebase
+
+0. Pre-requisites: Install Firebase CLI tools. Run `npm install -g firebase-tools`.
+1. Run `firebase deploy --project my-react-scheduler`.
+
 ## Essential guides
 
 * [React](https://reactjs.org/docs/hello-world.html) - Basics of developing React apps.
