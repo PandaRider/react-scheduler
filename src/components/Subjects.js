@@ -34,25 +34,28 @@ const styles = theme => ({
 class Subjects extends Component {
   state = {
     open: false,
+    selectedCourse: null,
   }
 
-  handleAdd = () => {
-
+  async updateCourses() {
+    let courses = await getCourses(this.props.uid);
+    this.setState({ courses });
   }
-  handleClose =() => {
+
+  handleClose = () => {
     this.setState({ open: false });
+    this.updateCourses();
   }
 
   async componentDidMount() {
-    let courses = await getCourses(this.props.uid);
-    this.setState({ courses });
+    this.updateCourses();
   }
 
   render() {
     const { classes } = this.props;
     return(
       <div>
-        <Dialog open={this.state.open} onClose={this.handleClose} />
+        <Dialog open={this.state.open} onClose={this.handleClose} course={this.state.selectedCourse} />
         <Paper className={classes.root}>
           <Table className={classes.table}>
             <TableHead>
@@ -74,7 +77,7 @@ class Subjects extends Component {
           {/* <Button variant="fab" color="secondary" aria-label="edit" className={classes.button}>
             <Icon>edit_icon</Icon>
           </Button> */}
-          <Button onClick={() => this.setState({ open: true })} variant="fab" color="primary" aria-label="add" className={classes.button}>
+          <Button onClick={() => this.setState({ open: true, selectedCourse: null })} variant="fab" color="primary" aria-label="add" className={classes.button}>
             <AddIcon />
           </Button>
         </div>
@@ -83,14 +86,21 @@ class Subjects extends Component {
   }
 
   _renderCourses() {
-    if (this.state.courses === undefined) return;
+    if (this.state.courses === undefined) return <TableRow />;
 
     let items = [];
     for (var i in this.state.courses) {
       let course = this.state.courses[i];
-      items.push(<CourseTableRow key={course.key} course={course} />);
+      items.push(<CourseTableRow key={course.key} course={course} onClick={this._selectCourse.bind(this)} />);
     }
     return items;
+  }
+
+  _selectCourse(selectedCourse) {
+    this.setState({
+      selectedCourse,
+      open: true,
+    });
   }
 }
 

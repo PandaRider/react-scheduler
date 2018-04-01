@@ -3,8 +3,7 @@ import { TableCell, TableRow } from 'material-ui/Table';
 
 export default class CourseTableRow extends Component {
 	handleClick() {
-		let { course } = this.props;
-		console.log(course.key, course.subj_name);
+    this.props.onClick(this.props.course);
 	}
 
 	render() {

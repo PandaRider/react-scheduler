@@ -54,21 +54,19 @@ export function addCourse(uid, course) {
   console.log('Added course', uid, course);
 }
 
-export function updateCourse(uid, course) {
-  if (course.key == null) { // use == to catch both null and undefined
-    console.error("Error updating course (key not found):", course);
-    return;
-  }
-
-  let ref = firebaseApp.database().ref(COURSES + uid + '/' + course.key);
-  ref.set(_.pick(course, constants.courses.fields));
+export function updateCourse(uid, key, course) {
+  let ref = firebaseApp.database().ref(COURSES + uid + '/' + key);
+  let newCourse = _.pick(course, constants.courses.fields);
+  ref.set(newCourse);
+  console.log('Updated course', newCourse);
 }
 
-export function removeCourse(uid, course) {
+export function removeCourse(uid, key) {
   let ref = firebaseApp.database().ref(COURSES + uid);
-  ref.child(course.key).remove();
+  ref.child(key).remove();
 }
 
+/*
 async function testGetCourse() {
   let uid = "MhfSenYDsYh4b6G41hmsk1KKcxF2";
   let courses = await getCourses();
@@ -93,3 +91,4 @@ async function testCourse() {
   testRemoveCourse(courses[0]);
   testUpdateCourse();
 }
+*/

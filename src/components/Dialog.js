@@ -12,7 +12,7 @@ import { withStyles } from 'material-ui/styles';
 import NumberFormat from 'react-number-format';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import { addCourse } from '../utils/Firebase';
+import { addCourse, updateCourse } from '../utils/Firebase';
 import Course from '../utils/objects/Course';
 import constants from '../utils/Constants';
 var _ = require('lodash');
@@ -78,15 +78,31 @@ function NumberFormatCustom(props) {
 }
 
 class DialogComponent extends Component {
-  state = {
+  initialState = {
     subj_name: '',
     subj_code: '',
     student_count: 0,
-    expanded: '',
     cbl_hours: 0.0,
     lecture_hours: 0.0,
     merged_lectures: true,
+
+    expanded: '',
+    newCourse: true,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = Object.assign({}, this.initialState);
   }
+
+  componentWillReceiveProps(nextProps) {
+    let nextState = {
+      expanded: '',
+      newCourse: nextProps.course == null,
+    };
+    this.setState(Object.assign(nextState, nextProps.course || this.initialState));
+  }
+
   handleChange = (name) => {
     return (event) => this.setState({
       [name]: event.target.value,
@@ -99,8 +115,22 @@ class DialogComponent extends Component {
   };
   handleSubmit = () => {
     let { uid } = this.props;
-    let course = _.pick(this.state, constants.courses.fields)
-    addCourse(uid, course);
+    let course = _.pick(this.state, constants.courses.fields);
+
+    if (this.state.newCourse) {
+      console.log('add course');
+      addCourse(uid, course);
+    }
+    else {
+      let { key } = this.props.course;
+      if (key == null) {
+        console.error('Cannot update: key not found');
+        return;
+      }
+      updateCourse(uid, key, course);
+    }
+
+    this.props.onClose();
   }
   render() {
     const { handleClose, classes, ...other } = this.props;
