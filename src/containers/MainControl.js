@@ -14,25 +14,35 @@ import '../styles/MainControl.css';
 
 // This is the MainControl "Main" page after the user logs in.
 class MainControl extends React.Component {
-  componentDidMount() {
-    
-  }
+  // state = {
+  //   isAdmin: false,
+  // }
+  // componentDidMount() {
+  //   this.props.getIsAdmin(this.props.uid);
+  // }
   render() {
-    return (
-      <div class="container" id="mainContainer">
-        <MenuAppBar 
-          signOutAction={this.props.signOutUser} 
-          handleChangeTabs={this.props.changeTab}
-          value={this.props.tab} 
-        />
-        {this.props.tab === 0 ? 
-          <div class="example">
-            <Calendar events={this.props.events} />
-          </div> : 
-          <Subjects uid={this.props.uid} />
-        }
-      </div>
-    );
+    if (this.props.isAdmin === true) {
+      return (
+        <div>yay admin</div>
+      )
+    } else {
+      console.log("oh dear");
+      return (
+        <div class="container" id="mainContainer">
+          <MenuAppBar 
+            signOutAction={this.props.signOutUser} 
+            handleChangeTabs={this.props.changeTab}
+            value={this.props.tab} 
+          />
+          {this.props.tab === 0 ? 
+            <div class="example">
+              <Calendar events={this.props.events} />
+            </div> : 
+            <Subjects uid={this.props.uid} />
+          }
+        </div>
+      );
+    }
   }
 }
 
@@ -42,6 +52,7 @@ function mapStateToProps(state) {
     events: state.events,
     tab: state.menu.tab,
     uid: state.auth.uid,
+    isAdmin: state.auth.isAdmin,
   };
 }
 
