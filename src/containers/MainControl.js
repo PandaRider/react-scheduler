@@ -20,13 +20,16 @@ class MainControl extends React.Component {
   // componentDidMount() {
   //   this.props.getIsAdmin(this.props.uid);
   // }
+  componentDidMount() {
+    this.props.testFirebase('MhfSenYDsYh4b6G41hmsk1KKcxF2');
+  }
   render() {
-    if (this.props.isAdmin === true) {
+    if (this.props.isAdmin === 'adminB') {
       return (
         <div>yay admin</div>
       )
     } else {
-      console.log("oh dear");
+      console.log("this.props.isAdmin");
       return (
         <div class="container" id="mainContainer">
           <MenuAppBar 
@@ -52,7 +55,8 @@ function mapStateToProps(state) {
     events: state.events,
     tab: state.menu.tab,
     uid: state.auth.uid,
-    isAdmin: state.auth.isAdmin,
+    // isAdmin: state.auth.isAdmin,
+    isAdmin: state.menu.newTitle,
   };
 }
 
