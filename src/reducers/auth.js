@@ -15,6 +15,7 @@ export default function auth(state = initialState, action) {
         authenticated: true,
         error: null,
         uid: action.uid,
+        isAdmin: action.isAdmin,
       };
     case SIGN_OUT_USER:
       return {

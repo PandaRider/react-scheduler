@@ -10,10 +10,11 @@ export const TEST_FIREBASE = 'TEST_FIREBASE';
 
 export * from './menu_actions';
 
-export function authUser(uid) {
+export function authUser(uid, isAdmin) {
   return {
     type: AUTH_USER,
     uid,
+    isAdmin,
   };
 }
 
@@ -31,7 +32,6 @@ export function signUpUser(credentials) {
         dispatch(authUser());
       })
       .catch((error) => {
-        // console.log(error);
         dispatch(authError(error));
       });
   };
@@ -52,7 +52,9 @@ export function signInUser(credentials) {
   return (dispatch) => {
     Firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password)
       .then((auth) => {
-        dispatch(authUser());
+        Firebase.database().ref('users').child(auth.uid).child('name').once('value',
+          (snapshot) => dispatch(authUser(auth.uid, snapshot.val()))
+        );
       })
       .catch((error) => {
         dispatch(authError(error));
@@ -73,16 +75,6 @@ export function verifyAuth() {
   };
 }
 
-// export function getIsAdmin(uid) {
-//   return (dispatch) => {
-//     console.log("Auth ID is: " + uid);
-//     Firebase.database().ref('users').child('MhfSenYDsYh4b6G41hmsk1KKcxF2').child('isAdmin').once('value',
-//       (snapshot) => { snapshot.val() === true ? dispatch(() => ({ type: GET_ADMIN_TOKEN, payload: true })) 
-//                                      : dispatch(() => ({ type: GET_ADMIN_TOKEN, payload: false }))
-//                                     })
-//       // (snapshot) => { snapshot.val() ? console.log('okay'): console.log('alright')})
-//   }
-// }
 
 export const setTitle = (snapshot) => ({
   type: TEST_FIREBASE,

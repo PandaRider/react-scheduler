@@ -14,22 +14,13 @@ import '../styles/MainControl.css';
 
 // This is the MainControl "Main" page after the user logs in.
 class MainControl extends React.Component {
-  // state = {
-  //   isAdmin: false,
-  // }
-  // componentDidMount() {
-  //   this.props.getIsAdmin(this.props.uid);
-  // }
-  componentDidMount() {
-    this.props.testFirebase('MhfSenYDsYh4b6G41hmsk1KKcxF2');
-  }
   render() {
-    if (this.props.isAdmin === 'adminB') {
+    if (this.props.isAdmin === 'adminA') {
       return (
         <div>yay admin</div>
       )
     } else {
-      console.log("this.props.isAdmin");
+      console.log(this.props.isAdmin);
       return (
         <div class="container" id="mainContainer">
           <MenuAppBar 
@@ -55,8 +46,8 @@ function mapStateToProps(state) {
     events: state.events,
     tab: state.menu.tab,
     uid: state.auth.uid,
-    // isAdmin: state.auth.isAdmin,
-    isAdmin: state.menu.newTitle,
+    isAdmin: state.auth.isAdmin,
+    // isAdmin: state.menu.newTitle,
   };
 }
 
