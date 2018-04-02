@@ -23,7 +23,7 @@ export default function configureStore(initialState) {
     )),
   );
 
-  // store.dispatch(Actions.verifyAuth()); // only invoked when our app initially boots.
+  store.dispatch(Actions.verifyAuth()); // only invoked when our app initially boots.
 
   return store;
 }
