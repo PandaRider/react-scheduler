@@ -15,7 +15,7 @@ import '../styles/MainControl.css';
 // This is the MainControl "Main" page after the user logs in.
 class MainControl extends React.Component {
   render() {
-    if (this.props.isAdmin === 'adminA') {
+    if (this.props.isAdmin === 'admin') {
       return (
         <div>yay admin</div>
       )

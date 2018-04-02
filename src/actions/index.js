@@ -52,7 +52,7 @@ export function signInUser(credentials) {
   return (dispatch) => {
     Firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password)
       .then((auth) => {
-        Firebase.database().ref('users').child(auth.uid).child('name').once('value',
+        Firebase.database().ref('users').child(auth.uid).child('isAdmin').once('value',
           (snapshot) => dispatch(authUser(auth.uid, snapshot.val()))
         );
       })
