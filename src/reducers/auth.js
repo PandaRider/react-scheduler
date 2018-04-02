@@ -1,8 +1,7 @@
 import { AUTH_USER, SIGN_OUT_USER, AUTH_ERROR, GET_ADMIN_TOKEN } from '../actions';
 
 const initialState = {
-  authProf: false,
-  authAdmin: false,
+  authenticated: false,
   error: null,
   uid: null,
   isAdmin: null,
@@ -10,28 +9,18 @@ const initialState = {
 
 export default function auth(state = initialState, action) {
   switch (action.type) {
-    case AUTH_PROF:
+    case AUTH_USER:
       return {
         ...state,
-        authProf: true,
-        authAdmin: false,
+        authenticated: true,
         error: null,
         uid: action.uid,
         isAdmin: action.isAdmin,
       };
-    case AUTH_ADMIN:
-      return {
-        ...state,
-        authProf: false,
-        authAdmin: true,
-        error: null,
-        uid: action.uid,
-      }
     case SIGN_OUT_USER:
       return {
         ...state,
-        authProf: false,
-        authAdmin: false,
+        authenticated: false,
         error: null,
       };
     case AUTH_ERROR:

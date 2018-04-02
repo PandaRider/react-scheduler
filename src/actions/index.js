@@ -12,19 +12,12 @@ export * from './menu_actions';
 
 export function authUser(uid, isAdmin) {
   return {
-    type: AUTH_PROF,
+    type: AUTH_USER,
     uid,
     isAdmin,
   };
 }
 
-export function authAdmin(uid) {
-  console.log("all is fine.");
-  return {
-    type: AUTH_ADMIN,
-    uid,
-  }
-}
 
 export function authError(error) {
   return {
@@ -37,7 +30,7 @@ export function signUpUser(credentials) {
   return (dispatch) => {
     Firebase.auth().createUserWithEmailAndPassword(credentials.email, credentials.password)
       .then(() => {
-        dispatch(authProf());
+        dispatch(authUser());
       })
       .catch((error) => {
         dispatch(authError(error));
@@ -74,11 +67,7 @@ export function verifyAuth() {
   return (dispatch) => {
     Firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        // let authType = getAuthType(user.uid);
-        // authType ? dispatch(authProf(user.uid)) : dispatch(authAdmin(user.uid));
-
-        // console.log(user.uid);
-        dispatch(authProf(user.uid));
+        dispatch(authUser(user.uid));
       } else {
         dispatch(signOutUser());
       }
