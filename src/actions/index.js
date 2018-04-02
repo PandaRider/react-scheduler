@@ -4,15 +4,17 @@ import Firebase from 'firebase';
 export const SIGN_IN_USER = 'SIGN_IN_USER';
 export const SIGN_OUT_USER = 'SIGN_OUT_USER';
 export const AUTH_ERROR = 'AUTH_ERROR';
-export const AUTH_PROF = 'AUTH_PROF';
-export const AUTH_ADMIN = 'AUTH_ADMIN';
+export const AUTH_USER = 'AUTH_USER';
+export const GET_ADMIN_TOKEN = 'GET_ADMIN_TOKEN';
+export const TEST_FIREBASE = 'TEST_FIREBASE';
 
 export * from './menu_actions';
 
-export function authProf(uid) {
+export function authUser(uid, isAdmin) {
   return {
     type: AUTH_PROF,
     uid,
+    isAdmin,
   };
 }
 
@@ -38,7 +40,6 @@ export function signUpUser(credentials) {
         dispatch(authProf());
       })
       .catch((error) => {
-        // console.log(error);
         dispatch(authError(error));
       });
   };
@@ -59,26 +60,9 @@ export function signInUser(credentials) {
   return (dispatch) => {
     Firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password)
       .then((auth) => {
-        // console.log("here");
-        // console.log(auth.uid);
-        // Firebase.database().ref('users').child(auth.uid).child('isAdmin').once('value').then(
-        //   (snapshot) => {
-        //     console.log(snapshot);
-        //     snapshot ? dispatch(authAdmin()) : dispatch(authProf());
-        //   }
-        // )
-
-
-        // console.log("Auth ID is: " + auth.uid);
-        // Firebase.database().ref('users').child(auth.uid).child('isAdmin').once('value',
-        //   (snapshot) => { snapshot.val() ? dispatch(authAdmin(auth.uid)) : dispatch(authProf(auth.uid))})
-
-
-          // (snapshot) => { snapshot.val() ? console.log('okay'): console.log('alright')})
-
-        dispatch(authAdmin());
-        // let authType = getAuthType(auth.uid);
-        // authType ? dispatch(authProf()) : dispatch(authAdmin());
+        Firebase.database().ref('users').child(auth.uid).child('isAdmin').once('value',
+          (snapshot) => dispatch(authUser(auth.uid, snapshot.val()))
+        );
       })
       .catch((error) => {
         dispatch(authError(error));
@@ -100,4 +84,16 @@ export function verifyAuth() {
       }
     });
   };
+}
+
+
+export const setTitle = (snapshot) => ({
+  type: TEST_FIREBASE,
+  payload: snapshot
+})
+
+export const testFirebase = (uid) => (dispatch) => {
+  // Firebase.database().ref('users').child('MhfSenYDsYh4b6G41hmsk1KKcxF2').child('name').once('value',
+  Firebase.database().ref('users').child(uid).child('name').once('value',
+      (snapshot) => dispatch(setTitle(snapshot.val())))
 }
