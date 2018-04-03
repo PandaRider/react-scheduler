@@ -3,18 +3,27 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "ajv": "^6.4.0",
+    "ajv-keywords": "^3.1.0",
     "dayz": "^0.8.0",
     "eslint-plugin-import": "^2.8.0",
     "firebase": "^4.10.0",
     "jest-cli": "^22.4.2",
-    "material-ui": "^1.0.0-beta.31",
+    "lodash": "^4.17.5",
+    "material-ui": "^1.0.0-beta.38",
     "material-ui-icons": "^1.0.0-beta.17",
     "moment": "^2.20.1",
     "moment-range": "^3.1.1",
+<<<<<<< HEAD
     "prop-types": "^15.6.1",
+||||||| merged common ancestors
+=======
+    "rc-slider": "^8.6.1",
+>>>>>>> firebase
     "react": "^16.2.0",
     "react-big-calendar": "^0.17.0",
     "react-dom": "^16.2.0",
+    "react-number-format": "^3.3.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",

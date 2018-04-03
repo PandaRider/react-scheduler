@@ -1,5 +1,6 @@
 import Firebase from 'firebase';
-import Course from './objects/Course';
+import constants from './Constants';
+var _ = require('lodash');
 
 const config = require('./firebase_config.json');
 const firebaseApp = Firebase.initializeApp(config);
@@ -13,50 +14,60 @@ function getSnap(ref) {
   });
 }
 
-export async function getCourses() {
-  let ref = firebaseApp.database().ref(COURSES);
+export async function getCourses(uid = null) {
+  let path = uid === null ? COURSES : COURSES + uid;
+  let ref = firebaseApp.database().ref(path);
   let snap = await getSnap(ref);
 
-  let items = [];
-  snap.forEach(child => {
-    let { id, title, start, end, desc } = child.val();
-    let course = new Course(child.key, id, title, new Date(start), new Date(end));
-    items.push(course);
-  });
-  return items;
-}
+  if (uid === null) {
+    let obj = {};
+    snap.forEach(child => {
+      let uid = child.key;
+      let courses = child.val();
 
-export function addCourse(course) {
-  let ref = firebaseApp.database().ref(COURSES);
-  console.log(course.asFirebaseObject());
-  ref.push(course.asFirebaseObject());
-}
+      let items = [];
+      for (var key in courses) {
+        let course = _.pick(courses[key], constants.courses.fields);
+        course.key = child.key;
+        items.push(course);
+      }
 
-export function updateCourse(course) {
-  if (course.key == null) { // use == to catch both null and undefined
-    console.error("Error updating course (key not found):", course);
-    return;
+      obj[uid] = items;
+    });
+
+    return obj;
   }
-
-  let ref = firebaseApp.database().ref(COURSES + course.key);
-  ref.set(course.asFirebaseObject());
+  else {
+    let items = [];
+    snap.forEach(child => {
+      let course = _.pick(child.val(), constants.courses.fields);
+      course.key = child.key;
+      items.push(course);
+    });
+    return items;
+  }
 }
 
-export function removeCourse(course) {
-  let ref = firebaseApp.database().ref(COURSES);
-  ref.child(course.key).remove();
+export function addCourse(uid, course) {
+  let path = uid === null ? COURSES : COURSES + uid;
+  let ref = firebaseApp.database().ref(path);
+  ref.push(course);
+  console.log('Added course', uid, course);
 }
 
-
-export function testAddCourse() {
-  let c0 = new Course(null, -1, 'Heh', new Date(), new Date());
-  let c1 = new Course(null, 0, 'Software Construction', new Date(2018, 0, 29, 8, 30, 0), new Date(2018, 0, 29, 10, 0, 0));
-  let c2 = new Course(null, 6, 'Meeting', new Date(2018, 2, 12, 10, 30, 0, 0), new Date(2018, 2, 12, 12, 30, 0, 0), 'Pre-meeting meeting, to prepare for the meeting');
-  addCourse(c0);
-  addCourse(c1);
-  addCourse(c2);
+export function updateCourse(uid, key, course) {
+  let ref = firebaseApp.database().ref(COURSES + uid + '/' + key);
+  let newCourse = _.pick(course, constants.courses.fields);
+  ref.set(newCourse);
+  console.log('Updated course', newCourse);
 }
 
+export function removeCourse(uid, key) {
+  let ref = firebaseApp.database().ref(COURSES + uid);
+  ref.child(key).remove();
+}
+
+<<<<<<< HEAD
 // export function getAuthType(uid) {
 //   let ref = firebaseApp.database().ref('users');
 //   // let auth;
@@ -64,7 +75,12 @@ export function testAddCourse() {
 //   // return auth;
 // }
 
+||||||| merged common ancestors
+=======
+/*
+>>>>>>> firebase
 async function testGetCourse() {
+  let uid = "MhfSenYDsYh4b6G41hmsk1KKcxF2";
   let courses = await getCourses();
   console.log(courses);
   return courses;
@@ -82,8 +98,9 @@ async function testUpdateCourse() {
 }
 
 async function testCourse() {
-  testAddCourse();
+  //testAddCourse();
   let courses = await testGetCourse();
   testRemoveCourse(courses[0]);
   testUpdateCourse();
 }
+*/
