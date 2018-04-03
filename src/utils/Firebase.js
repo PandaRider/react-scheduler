@@ -67,18 +67,7 @@ export function removeCourse(uid, key) {
   ref.child(key).remove();
 }
 
-<<<<<<< HEAD
-// export function getAuthType(uid) {
-//   let ref = firebaseApp.database().ref('users');
-//   // let auth;
-//   ref.child(uid).child('isAdmin').val
-//   // return auth;
-// }
-
-||||||| merged common ancestors
-=======
 /*
->>>>>>> firebase
 async function testGetCourse() {
   let uid = "MhfSenYDsYh4b6G41hmsk1KKcxF2";
   let courses = await getCourses();
