@@ -12,8 +12,50 @@ import Subjects from '../components/Subjects';
 import '../styles/styles.css';
 import '../styles/MainControl.css';
 
+const API_KEY = 'AIzaSyDvB-l32VkXryYRO-TGurfuXVH2fAWavd4';
+const CLIENT_ID = 'http://963547975567-ck1lcc823koop6c75q5lj810gva2l58i.apps.googleusercontent.com/';
+const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
+const SCOPES = "https://www.googleapis.com/auth/calendar";
+
 // This is the MainControl "Main" page after the user logs in.
 class MainControl extends React.Component {
+  componentDidMount() {
+    window.gapi.load('client', this.startGoogleCalendar);
+  }
+  // startGoogleCalendar() {
+  //   window.gapi.client.init({
+  //     'apiKey': API_KEY, 
+  //     'clientId': CLIENT_ID,
+  //     'discoveryDocs': DISCOVERY_DOCS,
+  //     'scope': SCOPES,
+  //   }).then(function() {
+  //     // 3. Initialize and make the API request.
+  //     return window.gapi.client.request({
+  //       'path': 'https://www.googleapis.com/calendar/v3/calendars/istd.scheduler@gmail.com/events',
+  //     })
+  //   }).then(function(response) {
+  //     console.log(response.result);
+  //   }, function(reason) {
+  //     console.log(reason);   //???
+  //   });
+  // }
+  startGoogleCalendar() {
+    window.gapi.client.init({
+      'apiKey': API_KEY, 
+      'clientId': CLIENT_ID,
+      'discoveryDocs': DISCOVERY_DOCS,
+      'scope': SCOPES,
+    }).then(function() {
+      // 3. Initialize and make the API request.
+      return window.gapi.client.request({
+        'path': 'https://www.googleapis.com/calendar/v3/calendars/istd.scheduler@gmail.com/events',
+      })
+    }).then(function(response) {
+      console.log(response.result);
+    }, function(reason) {
+      console.log(reason);   //???
+    });
+  }
   render() {
     if (this.props.isAdmin === 'admin') {
       return (
