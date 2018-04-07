@@ -20,6 +20,8 @@ import Welcome from './components/Welcome';
 import Profile from './containers/Profile';
 import { history } from './store/configureStore';
 
+require('./utils/wenbin');
+
 const PrivateRoute = ({ component: Component, authenticated, ...props }) => (
   <Route
     {...props}

@@ -5,7 +5,6 @@ import { withStyles } from 'material-ui/styles';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
 import Button from 'material-ui/Button';
-import Icon from 'material-ui/Icon';
 import AddIcon from 'material-ui-icons/Add';
 // import IconButton from 'material-ui/IconButton';
 
