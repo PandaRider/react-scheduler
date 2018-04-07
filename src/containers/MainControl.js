@@ -13,12 +13,21 @@ import '../styles/styles.css';
 import '../styles/MainControl.css';
 
 const API_KEY = 'AIzaSyDvB-l32VkXryYRO-TGurfuXVH2fAWavd4';
-const CLIENT_ID = 'http://963547975567-ck1lcc823koop6c75q5lj810gva2l58i.apps.googleusercontent.com/';
+const CLIENT_ID = '963547975567-a502fp13jmtfdhlimrbh6qnfk9hr5eg4.apps.googleusercontent.com';
 const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
-const SCOPES = "https://www.googleapis.com/auth/calendar";
+const SCOPE = "https://www.googleapis.com/auth/calendar";
 
 // This is the MainControl "Main" page after the user logs in.
 class MainControl extends React.Component {
+  
+  constructor(props){
+    super(props);
+    this.state = {
+      GoogleAuth: null,
+    }
+    this.updateSigninStatus = this.updateSigninStatus.bind(this);
+    // this.postAuth = this.postAuth.bind(this);
+  }
   componentDidMount() {
     window.gapi.load('client', this.startGoogleCalendar);
   }
@@ -39,23 +48,61 @@ class MainControl extends React.Component {
   //     console.log(reason);   //???
   //   });
   // }
+
   startGoogleCalendar() {
     window.gapi.client.init({
       'apiKey': API_KEY, 
       'clientId': CLIENT_ID,
       'discoveryDocs': DISCOVERY_DOCS,
-      'scope': SCOPES,
-    }).then(function() {
-      // 3. Initialize and make the API request.
-      return window.gapi.client.request({
-        'path': 'https://www.googleapis.com/calendar/v3/calendars/istd.scheduler@gmail.com/events',
-      })
-    }).then(function(response) {
-      console.log(response.result);
+      'scope': SCOPE,
+    })
+    .then(function () {
+      let tempGoogleAuth = window.gapi.auth2.getAuthInstance();
+      // this.setState({ GoogleAuth: tempGoogleAuth });
+      // let GoogleAuth = window.gapi.auth2.getAuthInstance();
+
+      // Listen for sign-in state changes.
+      tempGoogleAuth.isSignedIn.listen(() => console.log('something'));         // async
+      // Handle initial sign-in state. (Determine if user is already signed in.)
+      let user = tempGoogleAuth.currentUser.get();
+      // this.setSigninStatus();
+    })
+    .then(function(response) {
+      console.log('response');
     }, function(reason) {
       console.log(reason);   //???
     });
+
   }
+
+
+  // handleAuthClick() {
+  //   if (GoogleAuth.isSignedIn.get()) {
+  //     // User is authorized and has clicked 'Sign out' button.
+  //     GoogleAuth.signOut();
+  //   } else {
+  //     // User is not signed in. Start Google auth flow.
+  //     GoogleAuth.signIn();
+  //   }
+  // }
+  // revokeAccess() {
+  //   GoogleAuth.disconnect();
+  // }
+
+  updateSigninStatus() {
+    console.log('something');
+    // this.setSigninStatus();
+  }
+  // setSigninStatus(isSignedIn) {
+  //   let user = this.state.GoogleAuth.currentUser.get();
+  //   let isAuthorized = user.hasGrantedScopes(SCOPE);
+  //   if (isAuthorized) {
+  //     console.log('You are currently signed in and have granted access to this app.');
+  //   } else {
+  //     console.log('You have not authorized this app or you are signed out.');
+  //   }
+  // }
+
   render() {
     if (this.props.isAdmin === 'admin') {
       return (
