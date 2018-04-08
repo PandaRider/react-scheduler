@@ -6,7 +6,7 @@ let _ = require('lodash');
 
 /*unpacks day_of_week = 1-5, then add location_slots to each time_slot*/
 
-let slots = {
+const slots = {
 	time_slots: [
         { start: '0800', end: '0830' },
         { start: '0830', end: '0900' },
@@ -267,11 +267,23 @@ getInput();map(inp,slots);sendOutput(stringy); //version one, failed due to late
 getInput(function(){map(inp,slots);sendOutput(stringy);}); //version two
 */
 
-async function getSlots() {
+export async function getSlots() {
 	let courses = await getCourses();
-	let res = map(courses, slots);
-	console.log(res);
-	return res.lessons;
+	let results = map(courses, slots);
+	console.log('test', results);
+	return results.lessons;
 }
 
-export default getSlots;
+export function mapCoursesToEvents(courses) {
+	let results = map(courses, slots);
+	let events = results.lessons.map(slot => {
+		let { subj_code, subj_name, start, end } = slot;
+		return {
+			title: subj_code,
+			desc: subj_name,
+			start: new Date(start),
+			end: new Date(end),
+		};
+	});
+	return events;
+}

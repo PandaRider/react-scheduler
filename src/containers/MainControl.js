@@ -11,9 +11,25 @@ import MenuAppBar from '../components/MenuAppBar';
 import Subjects from '../components/Subjects';
 import '../styles/styles.css';
 import '../styles/MainControl.css';
+import { mapCoursesToEvents } from '../utils/wenbin';
 
 // This is the MainControl "Main" page after the user logs in.
 class MainControl extends React.Component {
+  state = {
+    events: [],
+  };
+
+  componentDidMount() {
+    let { isAdmin, uid } = this.props;
+    this.props.fetchCourses(null, null); // TODO - change to this.props.isAdmin - currenty is 'undefined'
+  }
+
+  _getEvents() {
+    //return this.props.events;
+    let events = mapCoursesToEvents(this.props.courses);
+    return events;
+  }
+
   render() {
     if (this.props.isAdmin === 'admin') {
       return (
@@ -30,7 +46,7 @@ class MainControl extends React.Component {
           />
           {this.props.tab === 0 ? 
             <div class="example">
-              <Calendar events={this.props.events} />
+              <Calendar events={this._getEvents()} />
             </div> : 
             <Subjects uid={this.props.uid} />
           }
@@ -47,6 +63,7 @@ function mapStateToProps(state) {
     tab: state.menu.tab,
     uid: state.auth.uid,
     isAdmin: state.auth.isAdmin,
+    courses: state.courses.courses,
     // isAdmin: state.menu.newTitle,
   };
 }

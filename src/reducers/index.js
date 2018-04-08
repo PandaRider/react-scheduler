@@ -5,6 +5,7 @@ import { reducer as FormReducer } from 'redux-form';
 import EventsReducer from './events';
 import AuthReducer from './auth';
 import MenuReducer from './menu';
+import CoursesReducer from './courses';
 
 const rootReducer = combineReducers({
   auth: AuthReducer,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   events: EventsReducer,
   router: routerReducer,
   menu: MenuReducer,
+  courses: CoursesReducer,
 });
 
 export default rootReducer;

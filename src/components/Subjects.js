@@ -36,18 +36,10 @@ class Subjects extends Component {
     selectedCourse: null,
   }
 
-  async updateCourses() {
-    let courses = await getCourses(this.props.uid);
-    this.setState({ courses });
-  }
-
   handleClose = () => {
     this.setState({ open: false });
-    this.updateCourses();
-  }
-
-  async componentDidMount() {
-    this.updateCourses();
+    this.props.fetchCourses(null, this.props.uid);
+    //this.updateCourses(this.props.uid);
   }
 
   render() {
@@ -85,11 +77,10 @@ class Subjects extends Component {
   }
 
   _renderCourses() {
-    if (this.state.courses === undefined) return <TableRow />;
+    if (this.props.courses === undefined) return <TableRow />;
 
     let items = [];
-    for (var i in this.state.courses) {
-      let course = this.state.courses[i];
+    for (let course of this.props.courses[this.props.uid]) {
       items.push(<CourseTableRow key={course.key} course={course} onClick={this._selectCourse.bind(this)} />);
     }
     return items;
@@ -106,6 +97,8 @@ class Subjects extends Component {
 function mapStateToProps(state) {
   return {
     uid: state.auth.uid,
+    isAdmin: state.auth.isAdmin,
+    courses: state.courses.courses,
   };
 }
 

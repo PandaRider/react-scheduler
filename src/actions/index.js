@@ -9,6 +9,7 @@ export const GET_ADMIN_TOKEN = 'GET_ADMIN_TOKEN';
 export const TEST_FIREBASE = 'TEST_FIREBASE';
 
 export * from './menu_actions';
+export * from './courses';
 
 export function authUser(uid, isAdmin) {
   return {
