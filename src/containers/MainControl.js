@@ -22,11 +22,14 @@ class MainControl extends React.Component {
   
   constructor(props){
     super(props);
+    // this.secondFunction = this.secondFunction.bind(this);
+    // this.thirdFunction = this.thirdFunction.bind(this);
     this.state = {
       GoogleAuth: null,
     }
     this.updateSigninStatus = this.updateSigninStatus.bind(this);
     // this.postAuth = this.postAuth.bind(this);
+    this.startGoogleCalendar = this.startGoogleCalendar.bind(this);
   }
   componentDidMount() {
     window.gapi.load('client', this.startGoogleCalendar);
@@ -49,32 +52,41 @@ class MainControl extends React.Component {
   //   });
   // }
 
-  startGoogleCalendar() {
-    window.gapi.client.init({
-      'apiKey': API_KEY, 
-      'clientId': CLIENT_ID,
-      'discoveryDocs': DISCOVERY_DOCS,
-      'scope': SCOPE,
-    })
-    .then(function () {
-      let tempGoogleAuth = window.gapi.auth2.getAuthInstance();
-      // this.setState({ GoogleAuth: tempGoogleAuth });
-      // let GoogleAuth = window.gapi.auth2.getAuthInstance();
-
-      // Listen for sign-in state changes.
-      tempGoogleAuth.isSignedIn.listen(() => console.log('something'));         // async
-      // Handle initial sign-in state. (Determine if user is already signed in.)
-      let user = tempGoogleAuth.currentUser.get();
-      // this.setSigninStatus();
-    })
-    .then(function(response) {
-      console.log('response');
-    }, function(reason) {
-      console.log(reason);   //???
-    });
-
+  // 
+  async startGoogleCalendar() {
+    try {
+      await window.gapi.client.init({
+        'apiKey': API_KEY, 
+        'clientId': CLIENT_ID,
+        'discoveryDocs': DISCOVERY_DOCS,
+        'scope': SCOPE,
+      })
+  
+      await this.secondFunction();
+      await this.thirdFunction();
+  
+    } catch(error) {
+      console.log(error);
+    }
+    
   }
 
+  async secondFunction () {
+    let tempGoogleAuth = window.gapi.auth2.getAuthInstance();
+    // this.setState({ GoogleAuth: tempGoogleAuth });
+    // let GoogleAuth = window.gapi.auth2.getAuthInstance();
+
+    // Listen for sign-in state changes.
+    tempGoogleAuth.isSignedIn.listen(() => console.log('something'));         // async
+    // Handle initial sign-in state. (Determine if user is already signed in.)
+    let user = tempGoogleAuth.currentUser.get();
+    let isAuthorized = user.hasGrantedScopes(SCOPE);
+    isAuthorized ? console.log('signed in and authorized') : console.log('not authorized or signed out');
+  }
+
+  async thirdFunction() {
+    console.log('response');
+  }
 
   // handleAuthClick() {
   //   if (GoogleAuth.isSignedIn.get()) {
