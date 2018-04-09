@@ -17,42 +17,53 @@ const CLIENT_ID = '963547975567-a502fp13jmtfdhlimrbh6qnfk9hr5eg4.apps.googleuser
 const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
 const SCOPE = "https://www.googleapis.com/auth/calendar";
 
+const myTestEvent = {
+  'summary': 'Google I/O 2015',
+  'location': '800 Howard St., San Francisco, CA 94103',
+  'description': 'A chance to hear more about Google\'s developer products.',
+  'start': {
+    'dateTime': '2018-04-10T09:00:00-07:00',
+    'timeZone': 'America/Los_Angeles'
+  },
+  'end': {
+    'dateTime': '2018-04-10T17:00:00-07:00',
+    'timeZone': 'America/Los_Angeles'
+  },
+  'recurrence': [
+    'RRULE:FREQ=DAILY;COUNT=2'
+  ],
+  'attendees': [
+    {'email': 'lpage@example.com'},
+    {'email': 'sbrin@example.com'}
+  ],
+  'reminders': {
+    'useDefault': false,
+    'overrides': [
+      {'method': 'email', 'minutes': 24 * 60},
+      {'method': 'popup', 'minutes': 10}
+    ]
+  }
+};
+
 // This is the MainControl "Main" page after the user logs in.
 class MainControl extends React.Component {
   
   constructor(props){
     super(props);
-    // this.secondFunction = this.secondFunction.bind(this);
-    // this.thirdFunction = this.thirdFunction.bind(this);
+    this.startGoogleCalendar = this.startGoogleCalendar.bind(this);
+    this.secondFunction = this.secondFunction.bind(this);
+    this.thirdFunction = this.thirdFunction.bind(this);
+    this.finalFunction = this.finalFunction.bind(this);
+    this.handleAuthClick = this.handleAuthClick.bind(this);
     this.state = {
       GoogleAuth: null,
     }
     this.updateSigninStatus = this.updateSigninStatus.bind(this);
     // this.postAuth = this.postAuth.bind(this);
-    this.startGoogleCalendar = this.startGoogleCalendar.bind(this);
   }
   componentDidMount() {
     window.gapi.load('client', this.startGoogleCalendar);
   }
-  // startGoogleCalendar() {
-  //   window.gapi.client.init({
-  //     'apiKey': API_KEY, 
-  //     'clientId': CLIENT_ID,
-  //     'discoveryDocs': DISCOVERY_DOCS,
-  //     'scope': SCOPES,
-  //   }).then(function() {
-  //     // 3. Initialize and make the API request.
-  //     return window.gapi.client.request({
-  //       'path': 'https://www.googleapis.com/calendar/v3/calendars/istd.scheduler@gmail.com/events',
-  //     })
-  //   }).then(function(response) {
-  //     console.log(response.result);
-  //   }, function(reason) {
-  //     console.log(reason);   //???
-  //   });
-  // }
-
-  // 
   async startGoogleCalendar() {
     try {
       await window.gapi.client.init({
@@ -61,7 +72,6 @@ class MainControl extends React.Component {
         'discoveryDocs': DISCOVERY_DOCS,
         'scope': SCOPE,
       })
-  
       await this.secondFunction();
       await this.thirdFunction();
   
@@ -73,11 +83,12 @@ class MainControl extends React.Component {
 
   async secondFunction () {
     let tempGoogleAuth = window.gapi.auth2.getAuthInstance();
-    // this.setState({ GoogleAuth: tempGoogleAuth });
+    this.setState({ GoogleAuth: tempGoogleAuth });
     // let GoogleAuth = window.gapi.auth2.getAuthInstance();
 
     // Listen for sign-in state changes.
-    tempGoogleAuth.isSignedIn.listen(() => console.log('something'));         // async
+    // tempGoogleAuth.isSignedIn.listen(() => console.log('something'));         // async
+    tempGoogleAuth.isSignedIn.listen(this.finalFunction);         // async
     // Handle initial sign-in state. (Determine if user is already signed in.)
     let user = tempGoogleAuth.currentUser.get();
     let isAuthorized = user.hasGrantedScopes(SCOPE);
@@ -88,15 +99,25 @@ class MainControl extends React.Component {
     console.log('response');
   }
 
-  // handleAuthClick() {
-  //   if (GoogleAuth.isSignedIn.get()) {
-  //     // User is authorized and has clicked 'Sign out' button.
-  //     GoogleAuth.signOut();
-  //   } else {
-  //     // User is not signed in. Start Google auth flow.
-  //     GoogleAuth.signIn();
-  //   }
-  // }
+  async finalFunction() {
+    let request = window.gapi.client.calendar.events.insert({
+      'calendarId': 'primary',
+      'resource': myTestEvent,
+    });
+    request.execute((event) => {
+      console.log('Event created: ' + event.htmlLink);
+    });
+  }
+
+  handleAuthClick() {
+    if (this.state.GoogleAuth.isSignedIn.get()) {
+      // User is authorized and has clicked 'Sign out' button.
+      this.state.GoogleAuth.signOut();
+    } else {
+      // User is not signed in. Start Google auth flow.
+      this.state.GoogleAuth.signIn();
+    }
+  }
   // revokeAccess() {
   //   GoogleAuth.disconnect();
   // }
@@ -131,7 +152,7 @@ class MainControl extends React.Component {
           />
           {this.props.tab === 0 ? 
             <div class="example">
-              <Calendar events={this.props.events} />
+              <Calendar events={this.props.events} handleAuthClick={this.handleAuthClick} />
             </div> : 
             <Subjects uid={this.props.uid} />
           }

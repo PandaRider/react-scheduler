@@ -8,6 +8,8 @@ import BigCalendar from 'react-big-calendar';
 import moment from 'moment'; // moment is a frequently used JavaScript library used to enable Date objects
 // import events from '../reducers/events'; // events is the sample data.
 import Dialog, { DialogTitle } from 'material-ui/Dialog';
+import Button from 'material-ui/Button';
+import AddIcon from 'material-ui-icons/Add';
 import 'react-big-calendar/lib/css/react-big-calendar.css'; // boilerplate. Required by library
 
 // Lesson: Integrating third party components
@@ -23,11 +25,15 @@ class CalendarWrapper extends Component {
       open: false,
       slotInfo: null,
     };
+    // this.handleAddCalendar = this.handleAddCalendar.bind(this);
   }
   handleSlot = (slotInfo) => {
     console.log(this.state.open);
     this.setState({ open: true, slotInfo });
   }
+  // handleAddCalendar = () => {
+  //   console.log('logging in...');
+  // }
   render() {
     return (
       <div>
@@ -48,6 +54,9 @@ class CalendarWrapper extends Component {
           // onSelectEvent={slotInfo => this.handleSlot(slotInfo)}
           onSelectEvent={() => alert("Any")}
         />
+        <Button onClick={this.props.handleAuthClick} variant="fab" color="primary" aria-label="add" >
+          <AddIcon />
+        </Button>
       </div>
     );
   }
