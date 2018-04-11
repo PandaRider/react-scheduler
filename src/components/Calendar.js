@@ -7,6 +7,7 @@ import React, { Component } from 'react';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment'; // moment is a frequently used JavaScript library used to enable Date objects
 // import events from '../reducers/events'; // events is the sample data.
+import { withStyles } from 'material-ui/styles';
 import Dialog, { DialogTitle } from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
@@ -17,6 +18,16 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'; // boilerplate. Requ
 // Suggested reference: https://github.com/intljusticemission/react-big-calendar/blob/master/examples/demos/selectable.js
 
 BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
+
+const styles = theme => ({
+  button: {
+    margin: 0,
+    top: 'auto',
+    right: 20,
+    bottom: 20,
+    left: 'auto',
+    position: 'fixed',  }
+});
 
 class CalendarWrapper extends Component {
   constructor() {
@@ -54,14 +65,14 @@ class CalendarWrapper extends Component {
           // onSelectEvent={slotInfo => this.handleSlot(slotInfo)}
           onSelectEvent={() => alert("Any")}
         />
-        <Button onClick={this.props.handleAuthClick} variant="fab" color="primary" aria-label="add" >
+        <Button onClick={this.props.handleAuthClick} variant="fab" color="primary" aria-label="add" className={this.props.classes.button}>
           <AddIcon />
         </Button>
       </div>
     );
   }
 }
-export default CalendarWrapper;
+export default withStyles(styles)(CalendarWrapper);
 // const Timeslots = props => (
 //   <BigCalendar
 //     {...props}

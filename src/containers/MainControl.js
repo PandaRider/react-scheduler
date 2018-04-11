@@ -55,10 +55,10 @@ class MainControl extends React.Component {
     this.thirdFunction = this.thirdFunction.bind(this);
     this.finalFunction = this.finalFunction.bind(this);
     this.handleAuthClick = this.handleAuthClick.bind(this);
-    this.state = {
-      GoogleAuth: null,
-    }
-    this.updateSigninStatus = this.updateSigninStatus.bind(this);
+    // this.state = {
+    //   GoogleAuth: null,
+    // }
+    this.myGoogleAuth = null;
     // this.postAuth = this.postAuth.bind(this);
   }
   componentDidMount() {
@@ -78,25 +78,24 @@ class MainControl extends React.Component {
     } catch(error) {
       console.log(error);
     }
-    
   }
 
   async secondFunction () {
-    let tempGoogleAuth = window.gapi.auth2.getAuthInstance();
-    this.setState({ GoogleAuth: tempGoogleAuth });
-    // let GoogleAuth = window.gapi.auth2.getAuthInstance();
+    this.myGoogleAuth = window.gapi.auth2.getAuthInstance();
+    // let tempGoogleAuth = window.gapi.auth2.getAuthInstance();
+    // this.setState({ GoogleAuth: tempGoogleAuth });
 
     // Listen for sign-in state changes.
-    // tempGoogleAuth.isSignedIn.listen(() => console.log('something'));         // async
-    tempGoogleAuth.isSignedIn.listen(this.finalFunction);         // async
+    this.myGoogleAuth.isSignedIn.listen(() => console.log('Status: Signed in'));         // async
     // Handle initial sign-in state. (Determine if user is already signed in.)
-    let user = tempGoogleAuth.currentUser.get();
+    // let user = tempGoogleAuth.currentUser.get();
+    let user = this.myGoogleAuth.currentUser.get();
     let isAuthorized = user.hasGrantedScopes(SCOPE);
     isAuthorized ? console.log('signed in and authorized') : console.log('not authorized or signed out');
   }
 
   async thirdFunction() {
-    console.log('response');
+    console.log('finished response');
   }
 
   async finalFunction() {
@@ -109,31 +108,19 @@ class MainControl extends React.Component {
     });
   }
 
-  handleAuthClick() {
-    if (this.state.GoogleAuth.isSignedIn.get()) {
+  async handleAuthClick() {
+    if (this.myGoogleAuth.isSignedIn.get()) {
       // User is authorized and has clicked 'Sign out' button.
-      this.state.GoogleAuth.signOut();
+      this.myGoogleAuth.signOut();
     } else {
       // User is not signed in. Start Google auth flow.
-      this.state.GoogleAuth.signIn();
+      await this.myGoogleAuth.signIn();
+      this.finalFunction();
     }
   }
+
   // revokeAccess() {
   //   GoogleAuth.disconnect();
-  // }
-
-  updateSigninStatus() {
-    console.log('something');
-    // this.setSigninStatus();
-  }
-  // setSigninStatus(isSignedIn) {
-  //   let user = this.state.GoogleAuth.currentUser.get();
-  //   let isAuthorized = user.hasGrantedScopes(SCOPE);
-  //   if (isAuthorized) {
-  //     console.log('You are currently signed in and have granted access to this app.');
-  //   } else {
-  //     console.log('You have not authorized this app or you are signed out.');
-  //   }
   // }
 
   render() {
