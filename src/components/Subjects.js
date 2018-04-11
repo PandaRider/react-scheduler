@@ -5,7 +5,6 @@ import { withStyles } from 'material-ui/styles';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
 import Button from 'material-ui/Button';
-import Icon from 'material-ui/Icon';
 import AddIcon from 'material-ui-icons/Add';
 // import IconButton from 'material-ui/IconButton';
 
@@ -37,18 +36,10 @@ class Subjects extends Component {
     selectedCourse: null,
   }
 
-  async updateCourses() {
-    let courses = await getCourses(this.props.uid);
-    this.setState({ courses });
-  }
-
   handleClose = () => {
     this.setState({ open: false });
-    this.updateCourses();
-  }
-
-  async componentDidMount() {
-    this.updateCourses();
+    this.props.fetchCourses(null, this.props.uid);
+    //this.updateCourses(this.props.uid);
   }
 
   render() {
@@ -84,13 +75,19 @@ class Subjects extends Component {
       </div>
     );
   }
-
+  // TODO: Minor issue with getting correct uid
   _renderCourses() {
-    if (this.state.courses === undefined) return <TableRow />;
-
+    if (this.props.courses === undefined) return <TableRow />;
+    // console.log(this.props.courses);
+    // console.log(this.props.uid);
+    // return this.props.courses['MhfSenYDsYh4b6G41hmsk1KKcxF2'].map((course, i) => {
+    //   return (
+    //     <CourseTableRow key={i} course={course} onClick={this._selectCourse.bind(this)}/>
+    //   )
+    // })
+    
     let items = [];
-    for (var i in this.state.courses) {
-      let course = this.state.courses[i];
+    for (let course of this.props.courses[this.props.uid]) {
       items.push(<CourseTableRow key={course.key} course={course} onClick={this._selectCourse.bind(this)} />);
     }
     return items;
@@ -107,6 +104,8 @@ class Subjects extends Component {
 function mapStateToProps(state) {
   return {
     uid: state.auth.uid,
+    isAdmin: state.auth.isAdmin,
+    courses: state.courses.courses,
   };
 }
 

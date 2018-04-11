@@ -13,7 +13,6 @@ import NumberFormat from 'react-number-format';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { addCourse, updateCourse } from '../utils/Firebase';
-import Course from '../utils/objects/Course';
 import constants from '../utils/Constants';
 var _ = require('lodash');
 
