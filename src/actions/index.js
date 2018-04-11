@@ -10,6 +10,7 @@ export const TEST_FIREBASE = 'TEST_FIREBASE';
 
 export * from './menu_actions';
 export * from './courses';
+export * from './events';
 
 export function authUser(uid, isAdmin) {
   return {

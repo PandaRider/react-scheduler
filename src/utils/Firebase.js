@@ -6,6 +6,7 @@ const config = require('./firebase_config.json');
 const firebaseApp = Firebase.initializeApp(config);
 
 const COURSES = 'courses/';
+const EVENTS = 'events/';
 const USERS = 'users';
 
 function getSnap(ref) {
@@ -28,7 +29,7 @@ export async function getCourses(uid = null) {
       let items = [];
       for (var key in courses) {
         let course = _.pick(courses[key], constants.courses.fields);
-        course.key = child.key;
+        course = Object.assign({ uid, key, }, course);
         items.push(course);
       }
 
@@ -62,34 +63,35 @@ export function updateCourse(uid, key, course) {
   console.log('Updated course', newCourse);
 }
 
-export function removeCourse(uid, key) {
+export function deleteCourse(uid, key) {
   let ref = firebaseApp.database().ref(COURSES + uid);
   ref.child(key).remove();
 }
 
-/*
-async function testGetCourse() {
-  let uid = "MhfSenYDsYh4b6G41hmsk1KKcxF2";
-  let courses = await getCourses();
-  console.log(courses);
-  return courses;
+export async function getEvents(uid = null) {
+  let path = EVENTS;
+  let ref = firebaseApp.database().ref(path);
+  let snap = await getSnap(ref);
+
+  let events = [];
+  snap.forEach(child => {
+    let id = child.key;
+    let { title, desc, start, end, uid } = child.val();
+
+    events.push({
+      id,
+      uid,
+      title,
+      desc,
+      start: new Date(start),
+      end: new Date(end),
+    });
+  });
+  
+  return events;
 }
 
-function testRemoveCourse(course) {
-  removeCourse(course);
+export function setEvents(events) {
+  let ref = firebaseApp.database().ref(EVENTS);
+  ref.set(events);
 }
-
-async function testUpdateCourse() {
-  let courses = await getCourses();
-  let course = courses[0];
-  course.id = 3;
-  updateCourse(course);
-}
-
-async function testCourse() {
-  //testAddCourse();
-  let courses = await testGetCourse();
-  testRemoveCourse(courses[0]);
-  testUpdateCourse();
-}
-*/

@@ -34,24 +34,25 @@ class CalendarWrapper extends Component {
     super();
     this.state = {
       open: false,
-      slotInfo: null,
     };
     // this.handleAddCalendar = this.handleAddCalendar.bind(this);
   }
-  handleSlot = (slotInfo) => {
-    console.log(this.state.open);
-    this.setState({ open: true, slotInfo });
+
+  handleEvent = (selectedEvent) => {
+    console.log(selectedEvent);
+    this.setState({ open: true, selectedEvent });
+  }
+
+  handleClose = () => {
+    this.setState({ open: false });
   }
   // handleAddCalendar = () => {
   //   console.log('logging in...');
   // }
+  
   render() {
     return (
       <div>
-        <Dialog open={this.state.open} onClose={() => this.setState({ open: false })}>
-          <DialogTitle>Testing</DialogTitle>
-          {this.state.slotInfo}
-        </Dialog>
         <BigCalendar
           {...this.props}
           events={this.props.events}
@@ -62,8 +63,7 @@ class CalendarWrapper extends Component {
           defaultView="week"
           views={['week', 'day']}
           defaultDate={new Date(2018, 0, 30)}
-          // onSelectEvent={slotInfo => this.handleSlot(slotInfo)}
-          onSelectEvent={() => alert("Any")}
+          onSelectEvent={this.handleEvent}
         />
         <Button onClick={this.props.handleAuthClick} variant="fab" color="primary" aria-label="add" className={this.props.classes.button}>
           <AddIcon />

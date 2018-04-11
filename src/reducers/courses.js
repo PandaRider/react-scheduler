@@ -4,7 +4,7 @@ const initialState = {
 	courses: null,
 };
 
-export default function courses(state = initialState, action) {
+export default function(state = initialState, action) {
 	if (action.type === UPDATE_COURSES) {
 		return {
 			...state,

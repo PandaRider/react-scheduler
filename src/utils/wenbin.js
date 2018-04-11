@@ -1,35 +1,24 @@
-import { getCourses } from './Firebase';
+import { getCourses, setEvents } from './Firebase';
 let moment = require('moment');
 let _ = require('lodash');
 
-// var inp='{"101201685623458202163":[{"subj_code":"10.009","subj_name":"Digital World","student_count":50,"cbl_hours":6.0,"lecture_hours":0.0,"merged_lectures":true},{"subj_code":"50.004","subj_name":"Introduction to Algorithms","student_count":45,"cbl_hours":4.0,"lecture_hours":2.0,"merged_lectures":true}]}';
+function generateSlots() {
+	let timeSlots = [];
+	let h = 8, m = '30';
+	while (h < 18) {
+		let start = _.padStart(h, 2, '0') + m;
+		
+		h = m == '00' ? h : h + 1;
+		m = m == '00' ? '30' : '00';
+		let end = _.padStart(h, 2, '0') + m;
 
-/*unpacks day_of_week = 1-5, then add location_slots to each time_slot*/
+		timeSlots.push({
+			start,
+			end,
+		});
+	}
 
-const slots = {
-	time_slots: [
-        { start: '0800', end: '0830' },
-        { start: '0830', end: '0900' },
-        { start: '0900', end: '0930' },
-        { start: '0930', end: '1000' },
-        { start: '1000', end: '1030' },
-        { start: '1030', end: '1100' },
-        { start: '1100', end: '1130' },
-        { start: '1130', end: '1200' },
-        { start: '1200', end: '1230' },
-        { start: '1230', end: '1300' },
-        { start: '1300', end: '1330' },
-        { start: '1330', end: '1400' },
-        { start: '1400', end: '1430' },
-        { start: '1430', end: '1500' },
-        { start: '1500', end: '1530' },
-        { start: '1530', end: '1600' },
-        { start: '1600', end: '1630' },
-        { start: '1630', end: '1700' },
-        { start: '1700', end: '1730' },
-        { start: '1730', end: '1800' },
-	],
-	location_slots: {
+	let locationSlots = {
 		lt1: {
 			taken: false,
 			capacity: 300,
@@ -52,16 +41,21 @@ const slots = {
 		},
 		cc14: {
 			taken: false,
-			capacity: 40,
+			capacity: 50,
 			disp_name: '2.507',
 		},
-	},
-};
+	};
 
-function map(inp, slots){
+	return {
+		time_slots: timeSlots,
+		location_slots: locationSlots,
+	};
+}
+
+function map(inp){
 	/*function objective: assign "day_of_week", "start", "end", "location" to provided input*/
 
-	var pre_sl = slots;
+	var pre_sl = generateSlots();
 	/*subfunctions to remove unwanted slots like wednesday afternoon*/
 
 	/*PREPROCESSOR1: section unpacks timeslots by adding day_of_week from mon-fri*/
@@ -166,7 +160,7 @@ function map(inp, slots){
 
 	/*PREPROCESSOR4: section multiplies each req and assign suitable student_count & class_number, using coord.html input field totalStudents*/
 	/*var totalStudents=document.getElementById('totalStudents').value;*/
-	var totalStudents=150;
+	var totalStudents=20;
 	var es=[];
 	var accountedFor=0;
 	for (var i=0;Math.ceil(totalStudents/i)>40;i++){}
@@ -259,31 +253,22 @@ function map(inp, slots){
 
 		}
 	}
-	return req;
+	return req.lessons;
 }
 
-/*expected use
-getInput();map(inp,slots);sendOutput(stringy); //version one, failed due to latenc of getInput
-getInput(function(){map(inp,slots);sendOutput(stringy);}); //version two
-*/
-
-export async function getSlots() {
-	let courses = await getCourses();
-	let results = map(courses, slots);
-	console.log('test', results);
-	return results.lessons;
-}
-
-export function mapCoursesToEvents(courses) {
-	let results = map(courses, slots);
-	let events = results.lessons.map(slot => {
-		let { subj_code, subj_name, start, end } = slot;
+export function generateEvents(courses) {
+	let results = map(courses);
+	let events = results.map(slot => {
+		let { subj_code, subj_name, start, end, profId } = slot;
 		return {
-			title: subj_code,
-			desc: subj_name,
-			start: new Date(start),
-			end: new Date(end),
+			uid: profId,
+			title: subj_name,
+			desc: subj_code,
+			start,
+			end,
 		};
 	});
+
+	setEvents(events);
 	return events;
 }

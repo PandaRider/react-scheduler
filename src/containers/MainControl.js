@@ -11,7 +11,6 @@ import MenuAppBar from '../components/MenuAppBar';
 import Subjects from '../components/Subjects';
 import '../styles/styles.css';
 import '../styles/MainControl.css';
-import { mapCoursesToEvents } from '../utils/wenbin';
 
 const API_KEY = 'AIzaSyDvB-l32VkXryYRO-TGurfuXVH2fAWavd4';
 const CLIENT_ID = '963547975567-a502fp13jmtfdhlimrbh6qnfk9hr5eg4.apps.googleusercontent.com';
@@ -65,7 +64,8 @@ class MainControl extends React.Component {
   componentDidMount() {
     window.gapi.load('client', this.startGoogleCalendar);
     let { isAdmin, uid } = this.props;
-    this.props.fetchCourses(null, null); // TODO - change to this.props.isAdmin - currenty is 'undefined'
+    this.props.fetchCourses(isAdmin, null); // TODO - change to this.props.isAdmin - currently is 'undefined'
+    this.props.fetchEvents();
   }
   async startGoogleCalendar() {
     try {
@@ -132,45 +132,40 @@ class MainControl extends React.Component {
 
 
   _getEvents() {
-    //return this.props.events;
-    let events = mapCoursesToEvents(this.props.courses);
-    return events;
+    let events = this.props.events;
+    if (events == null) return [];
+
+    if (this.props.isAdmin === 'admin') return events;
+    else return events.filter(event => event.uid === this.props.uid);
   }
 
   render() {
-    if (this.props.isAdmin === 'admin') {
-      return (
-        <div>yay admin</div>
-      )
-    } else {
-      console.log(this.props.isAdmin);
-      return (
-        <div class="container" id="mainContainer">
-          <MenuAppBar 
-            signOutAction={this.props.signOutUser} 
-            handleChangeTabs={this.props.changeTab}
-            value={this.props.tab} 
-          />
-          {this.props.tab === 0 ? 
-            <div class="example">
-              <Calendar events={this._getEvents()} />
-            </div> : 
-            <Subjects uid={this.props.uid} />
-          }
-        </div>
-      );
-    }
+    return (
+      <div class="container" id="mainContainer">
+        <MenuAppBar 
+          signOutAction={this.props.signOutUser} 
+          handleChangeTabs={this.props.changeTab}
+          value={this.props.tab} 
+        />
+        {this.props.tab === 0 ? 
+          <div class="example">
+            <Calendar events={this._getEvents()} />
+          </div> : 
+          <Subjects uid={this.props.uid} />
+        }
+      </div>
+    );
   }
 }
 
 
 function mapStateToProps(state) {
   return {
-    events: state.events,
     tab: state.menu.tab,
     uid: state.auth.uid,
     isAdmin: state.auth.isAdmin,
     courses: state.courses.courses,
+    events: state.events.events,
     // isAdmin: state.menu.newTitle,
   };
 }

@@ -117,7 +117,7 @@ class DialogComponent extends Component {
     let course = _.pick(this.state, constants.courses.fields);
 
     if (this.state.newCourse) {
-      console.log('add course');
+      console.log('add course', course);
       addCourse(uid, course);
     }
     else {

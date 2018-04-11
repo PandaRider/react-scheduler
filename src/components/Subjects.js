@@ -3,14 +3,16 @@ import { connect } from 'react-redux';
 import * as Actions from '../actions';
 import { withStyles } from 'material-ui/styles';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
+import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
 // import IconButton from 'material-ui/IconButton';
 
-import { getCourses } from '../utils/Firebase';
+import Dialog from './CourseDialog';
 import CourseTableRow from './CourseTableRow';
-import Dialog from './Dialog';
+import { generateEvents } from '../utils/wenbin';
+import { getEvents, setEvents } from '../utils/Firebase';
 
 const styles = theme => ({
   root: {
@@ -27,19 +29,41 @@ const styles = theme => ({
     right: 20,
     bottom: 20,
     left: 'auto',
-    position: 'fixed',  }
+    position: 'fixed',
+  },
+
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  generateButton: {
+    marginTop: 20,
+  },
+  status: {
+    margin: 8,
+  },
 });
 
 class Subjects extends Component {
   state = {
     open: false,
     selectedCourse: null,
+    generating: false,
+    status: '',
   }
 
   handleClose = () => {
     this.setState({ open: false });
-    this.props.fetchCourses(null, this.props.uid);
-    //this.updateCourses(this.props.uid);
+    this.props.fetchCourses(this.props.isAdmin, null);
+  }
+
+  handleGenerate = () => {
+    this.setState({ generating: true, status: '' });
+    let events = generateEvents(this.props.courses);
+    setEvents(events);
+    this.props.fetchEvents();
+    this.setState({ generating: false, status: 'Done!' });
   }
 
   render() {
@@ -57,6 +81,7 @@ class Subjects extends Component {
                 <TableCell numeric>Cohort-based learning (hrs)</TableCell>
                 <TableCell numeric>Lecture (hrs)</TableCell>
                 <TableCell>Merged lectures</TableCell>
+                <TableCell />
               </TableRow>
             </TableHead>
             <TableBody>
@@ -64,10 +89,16 @@ class Subjects extends Component {
             </TableBody>
           </Table>
         </Paper>
-        <div>
+        <div className={classes.buttonContainer}>
           {/* <Button variant="fab" color="secondary" aria-label="edit" className={classes.button}>
             <Icon>edit_icon</Icon>
           </Button> */}
+          {this.props.isAdmin === 'admin' ?
+            <Button onClick={this.handleGenerate} color="primary" className={classes.generateButton}>
+              {this.state.generating ? "Generating..." : "Generate courses"}
+            </Button>
+          : null}
+          <Typography className={classes.status}>{this.state.status}</Typography>
           <Button onClick={() => this.setState({ open: true, selectedCourse: null })} variant="fab" color="primary" aria-label="add" className={classes.button}>
             <AddIcon />
           </Button>
@@ -77,18 +108,36 @@ class Subjects extends Component {
   }
   // TODO: Minor issue with getting correct uid
   _renderCourses() {
-    if (this.props.courses === undefined) return <TableRow />;
-    // console.log(this.props.courses);
-    // console.log(this.props.uid);
-    // return this.props.courses['MhfSenYDsYh4b6G41hmsk1KKcxF2'].map((course, i) => {
-    //   return (
-    //     <CourseTableRow key={i} course={course} onClick={this._selectCourse.bind(this)}/>
-    //   )
-    // })
-    
+    let { courses, uid } = this.props;
+    if (courses == null) return <TableRow />;
+
+    if (this.props.isAdmin === 'admin') return this._renderAdminCourses(courses);
+    else return this._renderUserCourses(courses, uid);
+  }
+
+  _renderAdminCourses(courses) {
     let items = [];
-    for (let course of this.props.courses[this.props.uid]) {
-      items.push(<CourseTableRow key={course.key} course={course} onClick={this._selectCourse.bind(this)} />);
+    for (let uid in courses) {
+      items.push(
+        <TableRow>
+          <TableCell
+            style={{fontWeight: 'bold'}}
+            colSpan={7} 
+          >
+            {uid}
+          </TableCell>
+        </TableRow>
+      );
+      items.push(...this._renderUserCourses(courses, uid));
+    }
+    return items;
+  }
+
+  _renderUserCourses(courses, uid) {
+    let items = [];
+    for (var key in courses[uid]) {
+      let course = Object.assign({key}, courses[uid][key])
+      items.push(<CourseTableRow course={course} onClick={this._selectCourse.bind(this)} />);
     }
     return items;
   }
