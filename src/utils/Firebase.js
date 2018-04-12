@@ -7,7 +7,8 @@ const firebaseApp = Firebase.initializeApp(config);
 
 const COURSES = 'courses/';
 const EVENTS = 'events/';
-const USERS = 'users';
+const USERS = 'users/';
+const CHAT = 'chat/'
 
 function getSnap(ref) {
   return new Promise(resolve => {
@@ -94,4 +95,9 @@ export async function getEvents(uid = null) {
 export function setEvents(events) {
   let ref = firebaseApp.database().ref(EVENTS);
   ref.set(events);
+}
+
+export function setMessage(uid, msg) {
+  let ref = firebaseApp.database().ref(CHAT).child('MhfSenYDsYh4b6G41hmsk1KKcxF2').push();
+  ref.set( { message: msg } );
 }
