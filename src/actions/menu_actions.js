@@ -16,13 +16,6 @@ export const addSubject = (subjectName) => ({
 // }
 
 export const startCalendar = () => ({
-  type: START_CAL,
-  
+  type: START_CAL,  
 })
 
-
-// export function signUpUser(credentials) {
-//   return (dispatch) => {
-    
-//   };
-// }

@@ -82,6 +82,7 @@ class MenuAppBar extends React.Component {
               <Tabs className={classes.flex} value={this.props.value} onChange={(event, val) => this.props.handleChangeTabs(val)}>
                 <Tab label="Current timetable" />
                 <Tab label="Your classes" />
+                <Tab label="Chat" />
               </Tabs>
               <div>
                 <IconButton

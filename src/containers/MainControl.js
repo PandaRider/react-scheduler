@@ -9,8 +9,13 @@ import * as Actions from '../actions';
 import Calendar from '../components/Calendar';
 import MenuAppBar from '../components/MenuAppBar';
 import Subjects from '../components/Subjects';
+import ChatWidget from '../containers/ChatWidget';
 import '../styles/styles.css';
 import '../styles/MainControl.css';
+
+const TIMETABLE = 0;
+const CLASSES = 1;
+const CHAT = 2;
 
 // This is the MainControl "Main" page after the user logs in.
 class MainControl extends React.Component {
@@ -40,12 +45,21 @@ class MainControl extends React.Component {
           handleChangeTabs={this.props.changeTab}
           value={this.props.tab} 
         />
-        {this.props.tab === 0 ? 
+        {
+          this.props.tab === 0 ? 
+            <div class="example">
+              <Calendar events={this._getEvents()} />
+            </div>  :
+          this.props.tab === 1 ?
+            <Subjects uid={this.props.uid} />  :
+            <ChatWidget />
+        }
+        {/* {this.props.tab === 0 ? 
           <div class="example">
             <Calendar events={this._getEvents()} />
           </div> : 
           <Subjects uid={this.props.uid} />
-        }
+        } */}
       </div>
     );
   }

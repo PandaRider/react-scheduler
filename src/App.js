@@ -33,7 +33,6 @@ const PrivateRoute = ({ component: Component, authenticated, ...props }) => (
 );
 
 const PublicRoute = ({ component: Component, authenticated, ...props }) => {
-  // console.log(`app auth: ${authenticated}`);
   return (
     <Route
       {...props}
