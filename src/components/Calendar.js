@@ -5,54 +5,23 @@
 
 import React, { Component } from 'react';
 import BigCalendar from 'react-big-calendar';
-import moment from 'moment'; // moment is a frequently used JavaScript library used to enable Date objects
-// import events from '../reducers/events'; // events is the sample data.
+import moment from 'moment'; 
 import { withStyles } from 'material-ui/styles';
 import Dialog, { DialogTitle, DialogActions, DialogContentText } from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
 import AddIcon from 'material-ui-icons/Add';
-import 'react-big-calendar/lib/css/react-big-calendar.css'; // boilerplate. Required by library
-
-// Lesson: Integrating third party components
-// Task: Read and understand the props used. Which ones do you need to keep, which ones to remove?
-// Suggested reference: https://github.com/intljusticemission/react-big-calendar/blob/master/examples/demos/selectable.js
+import Snackbar from 'material-ui/Snackbar';
+import IconButton from 'material-ui/IconButton';
+import CloseIcon from 'material-ui-icons/Close';
+// import CloseIcon from 'material-ui/icons/Close';
+import 'react-big-calendar/lib/css/react-big-calendar.css'; 
 
 BigCalendar.momentLocalizer(moment); // or globalizeLocalizer
-
 
 const API_KEY = 'AIzaSyDvB-l32VkXryYRO-TGurfuXVH2fAWavd4';
 const CLIENT_ID = '963547975567-a502fp13jmtfdhlimrbh6qnfk9hr5eg4.apps.googleusercontent.com';
 const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
 const SCOPE = "https://www.googleapis.com/auth/calendar";
-
-const myTestEvent = {
-  'summary': 'Google I/O 2015',
-  'location': '800 Howard St., San Francisco, CA 94103',
-  'description': 'A chance to hear more about Google\'s developer products.',
-  'start': {
-    'dateTime': '2018-04-10T09:00:00-07:00',
-    'timeZone': 'America/Los_Angeles'
-  },
-  'end': {
-    'dateTime': '2018-04-10T17:00:00-07:00',
-    'timeZone': 'America/Los_Angeles'
-  },
-  'recurrence': [
-    'RRULE:FREQ=DAILY;COUNT=2'
-  ],
-  'attendees': [
-    {'email': 'lpage@example.com'},
-    {'email': 'sbrin@example.com'}
-  ],
-  'reminders': {
-    'useDefault': false,
-    'overrides': [
-      {'method': 'email', 'minutes': 24 * 60},
-      {'method': 'popup', 'minutes': 10}
-    ]
-  }
-};
-
 
 const styles = theme => ({
   button: {
@@ -61,7 +30,11 @@ const styles = theme => ({
     right: 20,
     bottom: 20,
     left: 'auto',
-    position: 'fixed',  }
+    position: 'fixed',  },
+  snackbarClose: {
+    width: theme.spacing.unit * 4,
+    height: theme.spacing.unit * 4,
+  }
 });
 
 class CalendarWrapper extends Component {
@@ -69,7 +42,6 @@ class CalendarWrapper extends Component {
     super();
     this.startGoogleCalendar = this.startGoogleCalendar.bind(this);
     this.secondFunction = this.secondFunction.bind(this);
-    // this.thirdFunction = this.thirdFunction.bind(this);
     this.insertCalendarEntry = this.insertCalendarEntry.bind(this);
     this.handleAuthClick = this.handleAuthClick.bind(this);
 
@@ -78,6 +50,7 @@ class CalendarWrapper extends Component {
       detailsTitle: null,
       start: null,
       end: null,
+      snackbarIsOpen: false,
     };
     this.myGoogleAuth = null;
   }
@@ -94,15 +67,10 @@ class CalendarWrapper extends Component {
         'scope': SCOPE,
       })
       await this.secondFunction();
-      // await this.thirdFunction();
     } catch(error) {
       console.log(error);
     }
   }
-  // async thirdFunction() {
-  //   console.log('finished response');
-  // }
-
 
   async secondFunction () {
     this.myGoogleAuth = window.gapi.auth2.getAuthInstance();
@@ -143,7 +111,8 @@ class CalendarWrapper extends Component {
     } else {
       // User is not signed in. Start Google auth flow.
       await this.myGoogleAuth.signIn();
-      this.insertCalendarEntry();
+      await this.insertCalendarEntry();
+      this.setState({ snackbarIsOpen: true });
     }
   }
 
@@ -153,9 +122,6 @@ class CalendarWrapper extends Component {
 
   handleOpenDialog = (selectedEvent) => {
     let { title, start, end } = selectedEvent;
-    // console.log(selectedEvent.start);
-    // console.log(selectedEvent.end);
-    // console.log(selectedEvent.title);
     this.setState({ open: true, detailsTitle: title, start, end });
   }
 
@@ -163,6 +129,7 @@ class CalendarWrapper extends Component {
     this.setState({ open: false });
   }
   
+  // TODO: Encapsulate Dialog, Calendar, Snackbar, Button for better readability
   render() {
     return (
       <div>
@@ -189,6 +156,33 @@ class CalendarWrapper extends Component {
           views={['week', 'day']}
           defaultDate={new Date(2018, 0, 30)}
           onSelectEvent={this.handleOpenDialog}
+        />
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={this.state.snackbarIsOpen}
+          autoHideDuration={6000}
+          onClose={() => this.setState({ snackbarIsOpen: false })}
+          SnackbarContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">Calendar entry inserted!</span>}
+          action={[
+            // <Button key="undo" color="secondary" size="small" onClick={() => this.setState({ snackbarIsOpen: false })}>
+            //   UNDO
+            // </Button>,
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              className={this.props.classes.snackbarClose}
+              onClick={() => this.setState({ snackbarIsOpen: false })}
+            >
+              <CloseIcon />
+            </IconButton>,
+          ]}
         />
         <Button onClick={this.props.handleAuthClick} variant="fab" color="primary" aria-label="add" className={this.props.classes.button}>
           <AddIcon />
