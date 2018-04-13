@@ -1,4 +1,4 @@
-import { AUTH_USER, SIGN_OUT_USER, AUTH_ERROR, GET_ADMIN_TOKEN } from '../actions';
+import { AUTH_USER, SIGN_OUT_USER, AUTH_ERROR, GET_ADMIN_TOKEN } from '../actions/types';
 
 const initialState = {
   authenticated: false,

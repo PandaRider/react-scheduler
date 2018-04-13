@@ -97,6 +97,10 @@ export function setEvents(events) {
   ref.set(events);
 }
 
+export function getMessages(uid, msg) {
+  
+}
+
 export function setMessage(uid, msg) {
   let ref = firebaseApp.database().ref(CHAT).child('MhfSenYDsYh4b6G41hmsk1KKcxF2').push();
   ref.set( { message: msg } );

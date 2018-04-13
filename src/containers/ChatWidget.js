@@ -14,10 +14,12 @@ class ChatWidget extends Component {
 
   handleNewUserMessage = (newMessage) => {
     console.log(`New message incoming! ${newMessage}`);
-    // Now send the message throught the backend API
     setMessage(null, newMessage)
   }
 
+  mapFirebaseToChat = (uid) => {
+    
+  }
   render() {
     return (
       <div className="App">
