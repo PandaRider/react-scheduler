@@ -2,7 +2,7 @@
   import/no-named-as-default: "off",
   import/no-named-as-default-member: "off",
 */
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import * as Actions from '../actions';
@@ -18,7 +18,7 @@ const CLASSES = 1;
 const CHAT = 2;
 
 // This is the MainControl "Main" page after the user logs in.
-class MainControl extends React.Component {
+class MainControl extends Component {
   componentDidMount() {
     let { isAdmin, uid } = this.props;
     this.props.fetchCourses(isAdmin, null); // TODO - change to this.props.isAdmin - currently is 'undefined'
@@ -54,12 +54,6 @@ class MainControl extends React.Component {
             <Subjects uid={this.props.uid} />  :
             <ChatWidget />
         }
-        {/* {this.props.tab === 0 ? 
-          <div class="example">
-            <Calendar events={this._getEvents()} />
-          </div> : 
-          <Subjects uid={this.props.uid} />
-        } */}
       </div>
     );
   }

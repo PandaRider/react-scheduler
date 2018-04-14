@@ -6,6 +6,7 @@ import EventsReducer from './events';
 import AuthReducer from './auth';
 import MenuReducer from './menu';
 import CoursesReducer from './courses';
+import ChatReducer from './chat';
 
 const rootReducer = combineReducers({
   auth: AuthReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   router: routerReducer,
   menu: MenuReducer,
   courses: CoursesReducer,
+  chat: ChatReducer,
 });
 
 export default rootReducer;
