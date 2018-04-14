@@ -13,7 +13,6 @@ import AddIcon from 'material-ui-icons/Add';
 import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import CloseIcon from 'material-ui-icons/Close';
-// import CloseIcon from 'material-ui/icons/Close';
 import 'react-big-calendar/lib/css/react-big-calendar.css'; 
 
 BigCalendar.momentLocalizer(moment); // or globalizeLocalizer

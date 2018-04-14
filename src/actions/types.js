@@ -10,3 +10,5 @@ export const ADD_SUBJECT = 'add_subject';
 
 export const START_CAL = 'start_cal';
 
+export const SET_MESSAGE = 'set_message';
+

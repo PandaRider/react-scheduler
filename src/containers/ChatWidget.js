@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { 
   Widget, 
   addResponseMessage, 
   addLinkSnippet, 
   addUserMessage 
 } from 'react-chat-widget';
-import { setMessage } from '../utils/Firebase';
+import { setMessage, firebaseApp } from '../utils/Firebase';
+import * as Actions from '../actions';
 
 class ChatWidget extends Component {
   componentDidMount() {
-    addResponseMessage("Welcome to this awesome chat!");
+    let ref = firebaseApp.database().ref('chat/').child('MhfSenYDsYh4b6G41hmsk1KKcxF2');
+    ref.on('child_added', (snapshot) => {
+      const { userType, message } = snapshot.val();
+      console.log(message);
+      userType === 'admin' ? addUserMessage(message) : addResponseMessage(message);
+    })
   }
 
   handleNewUserMessage = (newMessage) => {
@@ -18,7 +25,6 @@ class ChatWidget extends Component {
   }
 
   mapFirebaseToChat = (uid) => {
-    
   }
   render() {
     return (
@@ -32,5 +38,7 @@ class ChatWidget extends Component {
     );
   } 
 }
+
+
 
 export default ChatWidget;

@@ -1,9 +1,10 @@
 import Firebase from 'firebase';
 import constants from './Constants';
+import { fetchMessages } from '../actions/chat_actions';
 var _ = require('lodash');
 
 const config = require('./firebase_config.json');
-const firebaseApp = Firebase.initializeApp(config);
+export const firebaseApp = Firebase.initializeApp(config);
 
 const COURSES = 'courses/';
 const EVENTS = 'events/';
@@ -99,11 +100,24 @@ export function setEvents(events) {
   ref.set(events);
 }
 
-export function getMessages(uid, msg) {
-  
+// // For Edmund's chat widget
+// export function getMessages(uid, msg) {
+//   let ref = firebaseApp.database().ref(CHAT).child('MhfSenYDsYh4b6G41hmsk1KKcxF2');
+//   let resp = ref.on('child_added',)
+// }
+
+// For Edmund's chat widget
+export function giveFirebaseHaha() {
+  return firebaseApp.database().ref(CHAT);
 }
 
+// For Edmund's chat widget
 export function setMessage(uid, msg) {
-  let ref = firebaseApp.database().ref(CHAT).child('MhfSenYDsYh4b6G41hmsk1KKcxF2').push();
-  ref.set( { message: msg } );
+  // let ref = firebaseApp.database().ref(CHAT).child('MhfSenYDsYh4b6G41hmsk1KKcxF2').push();
+  // ref.set( { message: msg } );
+  let ref = firebaseApp.database().ref(CHAT).child('MhfSenYDsYh4b6G41hmsk1KKcxF2').push({ username: null, text: msg });
 }
+
+// export function fetchMessages() {
+//   let 
+// }
