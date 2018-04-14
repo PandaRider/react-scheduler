@@ -32,7 +32,7 @@ class MainControl extends React.Component {
   _getEvents() {
     let events = this.props.events;
     if (events == null) return [];
-
+    
     if (this.props.isAdmin === 'admin') return events;
     else return events.filter(event => event.uid === this.props.uid);
   }

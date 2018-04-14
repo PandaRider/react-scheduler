@@ -115,6 +115,7 @@ class DialogComponent extends Component {
   handleSubmit = () => {
     let { uid } = this.props;
     let course = _.pick(this.state, constants.courses.fields);
+    course.student_count = parseInt(course.student_count);
 
     if (this.state.newCourse) {
       console.log('add course', course);

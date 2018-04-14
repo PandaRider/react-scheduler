@@ -125,6 +125,23 @@ class CalendarWrapper extends Component {
     this.setState({ open: true, detailsTitle: title, start, end });
   }
 
+  eventStyle = (event) => {
+    let backgroundColor = event.type === 'Lecture' ? '#e53935' : '#3174ad';
+    let borderColor = event.type === 'Lecture' ? '#ab000d' : '#265985';
+
+    let style = {
+      backgroundColor,
+      borderColor,
+    };
+
+    return { style };
+  }
+
+  handleEvent = (selectedEvent) => {
+    console.log(selectedEvent);
+    this.setState({ open: true, selectedEvent });
+  }
+
   handleClose = () => {
     this.setState({ open: false });
   }
@@ -148,6 +165,7 @@ class CalendarWrapper extends Component {
         <BigCalendar
           {...this.props}
           events={this.props.events}
+          eventPropGetter={this.eventStyle}
           step={30}
           timeslots={1}
           min={new Date(2018, 0, 30, 8, 0, 0)}

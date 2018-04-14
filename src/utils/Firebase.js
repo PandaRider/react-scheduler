@@ -77,13 +77,15 @@ export async function getEvents(uid = null) {
   let events = [];
   snap.forEach(child => {
     let id = child.key;
-    let { title, desc, start, end, uid } = child.val();
+    let { uid, type, title, desc, location, start, end } = child.val();
 
     events.push({
       id,
       uid,
+      type,
       title,
       desc,
+      location,
       start: new Date(start),
       end: new Date(end),
     });
