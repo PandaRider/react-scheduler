@@ -125,12 +125,20 @@ class CalendarWrapper extends Component {
   }
 
   eventStyle = (event) => {
-    let backgroundColor = event.type === 'Lecture' ? '#e53935' : '#3174ad';
-    let borderColor = event.type === 'Lecture' ? '#ab000d' : '#265985';
+    let backgroundColor = '#3174ad';
+    if (event.uid === 'test') backgroundColor = '#4caf50';
+    else if (event.uid === 'prof1') backgroundColor = '#808080';
+
+    let borderColor = '#265985';
+    if (event.uid === 'test') borderColor = '#087f23';
+    else if (event.uid === 'prof1') borderColor = '#000000'
+
+    let borderWidth = event.type === 'Lecture' ? 3 : 1;
 
     let style = {
       backgroundColor,
       borderColor,
+      borderWidth,
     };
 
     return { style };
@@ -148,7 +156,7 @@ class CalendarWrapper extends Component {
   // TODO: Encapsulate Dialog, Calendar, Snackbar, Button for better readability
   render() {
     return (
-      <div>
+      <div style={{flex: 1}}>
         <Dialog open={this.state.open} onClose={() => this.setState({ open: false })}>
           <DialogTitle>Subject details</DialogTitle>
           <DialogContentText>{this.state.detailsTitle}</DialogContentText>

@@ -10,6 +10,7 @@ import AddIcon from 'material-ui-icons/Add';
 import Dialog from './CourseDialog';
 import CourseTableRow from './CourseTableRow';
 import { generateEvents } from '../utils/wenbin';
+import { algo } from '../utils/algo';
 import { getEvents, setEvents } from '../utils/Firebase';
 
 const styles = theme => ({
@@ -58,7 +59,12 @@ class Subjects extends Component {
 
   handleGenerate = () => {
     this.setState({ generating: true, status: '' });
+    /*
     let events = generateEvents(this.props.courses);
+    setEvents(events);
+    this.props.fetchEvents();
+    */
+    let events = algo(this.props.courses);
     setEvents(events);
     this.props.fetchEvents();
     this.setState({ generating: false, status: 'Done!' });
