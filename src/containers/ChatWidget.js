@@ -39,6 +39,4 @@ class ChatWidget extends Component {
   } 
 }
 
-
-
 export default ChatWidget;

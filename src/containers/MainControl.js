@@ -10,6 +10,7 @@ import Calendar from '../components/Calendar';
 import MenuAppBar from '../components/MenuAppBar';
 import Subjects from '../components/Subjects';
 import ChatWidget from '../containers/ChatWidget';
+import DnDCalendar from '../components/DnDCalendar';
 import '../styles/styles.css';
 import '../styles/MainControl.css';
 
@@ -52,7 +53,10 @@ class MainControl extends Component {
             </div>  :
           this.props.tab === 1 ?
             <Subjects uid={this.props.uid} />  :
-            <ChatWidget />
+            <div class="example">
+              <DnDCalendar events={this._getEvents()}/>
+              <ChatWidget />
+            </div>
         }
       </div>
     );
