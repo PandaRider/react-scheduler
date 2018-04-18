@@ -7,12 +7,6 @@ import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.less'
 const DragAndDropCalendar = withDragAndDrop(BigCalendar)
 
-const events = [
-  {
-
-  }
-]
-
 class DnDCalendar extends Component {
   constructor(props) {
     super(props)

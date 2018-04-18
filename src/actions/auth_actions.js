@@ -5,7 +5,7 @@ import {
   SIGN_OUT_USER,
   AUTH_ERROR,
   AUTH_USER,
-  GET_ADMIN_TOKEN,
+  // GET_ADMIN_TOKEN,
   TEST_FIREBASE,
 } from './types';
 

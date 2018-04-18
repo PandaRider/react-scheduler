@@ -10,12 +10,21 @@ import { setMessage, firebaseApp } from '../utils/Firebase';
 import * as Actions from '../actions';
 
 class ChatWidget extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      messages: null,
+    }
+  }
+  // TODO: differentiate prof and admin chat bubbles
   componentDidMount() {
     let ref = firebaseApp.database().ref('chat/').child('MhfSenYDsYh4b6G41hmsk1KKcxF2');
+    let isAdmin = this.props.isAdmin;
+    console.log(isAdmin);
     ref.on('child_added', (snapshot) => {
       const { userType, message } = snapshot.val();
       console.log(message);
-      userType === 'admin' ? addUserMessage(message) : addResponseMessage(message);
+      userType === isAdmin ? addUserMessage(message) : addResponseMessage(message);
     })
   }
 
@@ -24,8 +33,6 @@ class ChatWidget extends Component {
     setMessage(null, newMessage)
   }
 
-  mapFirebaseToChat = (uid) => {
-  }
   render() {
     return (
       <div className="App">

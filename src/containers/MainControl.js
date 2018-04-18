@@ -55,7 +55,7 @@ class MainControl extends Component {
             <Subjects uid={this.props.uid} />  :
             <div class="example">
               <DnDCalendar events={this._getEvents()}/>
-              <ChatWidget />
+              <ChatWidget isAdmin={this.props.isAdmin}/>
             </div>
         }
       </div>
