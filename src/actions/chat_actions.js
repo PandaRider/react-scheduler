@@ -1,5 +1,6 @@
 import Firebase from 'firebase';
-import { giveFirebaseHaha } from '../utils/Firebase';
+// import { giveFirebaseHaha } from '../utils/Firebase';
+import { firebaseApp } from '../utils/Firebase';
 
 import {
   SET_MESSAGE,
@@ -7,10 +8,15 @@ import {
   INIT_MESSAGES,
 } from './types';
 
-const setMessage = msg => ({
-  type: SET_MESSAGE,
-  payload: msg,
-});
+export const setMessage = (uid, msg) => {
+  let ref = firebaseApp.database().ref('chat/').child('MhfSenYDsYh4b6G41hmsk1KKcxF2').push({ userType: uid, message: msg });
+
+  return {
+    type: SET_MESSAGE,
+    payload: msg,
+  }
+}
+
 
 // Probably not needed?
 export const fetchMessages = msgUid => ({
@@ -22,6 +28,9 @@ export const initializeMessages = msgArr => ({
   type: INIT_MESSAGES,
   payload: msgArr,
 });
+
+
+
 
 // warning: (code smell) passing firebase ref and executing firebase methods outside of file.
 // export const updateMessages = () => (dispatch) => {
