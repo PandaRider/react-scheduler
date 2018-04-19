@@ -309,9 +309,7 @@ function swapSlots(slots, events) {
 	// start swapping at random
 	let a = _.sample(slots.filter(slot => slot.eventId !== null));
 	let b = _.sample(slots.filter(slot => slot.eventId !== a.eventId));
-
 	let slots1 = slots.filter(slot => slot.eventId === a.eventId);
-	let slots2 = slots2 = slots.filter(slot => slot.eventId === b.eventId);;
 
 	// if b is empty space, simply transfer a over
 	if (b.eventId === null) {
@@ -322,8 +320,10 @@ function swapSlots(slots, events) {
 			if (slots[b.id + i].eventId !== null) return false; // check if clash with another course
 			// check if already have lesson in that time
 			let sameTime = slots.filter(slot => slot.time.start === slots[b.id + i].time.start);
-			let profClash = sameTime.filter(slot => slot.eventId !== null && events[slot.eventId].uid === events[a.eventId].uid);
-			if (profClash.length > 0) return false;
+			for (let slot of sameTime) {
+				if (slot.eventId === null) continue;
+				if (events[slot.eventId].uid === events[a.eventId].uid) return false;
+			}
 		}
 		// otherwise move it over
 		for (let i=0; i<slots1.length; i++) {
@@ -332,6 +332,8 @@ function swapSlots(slots, events) {
 		}
 		return true;
 	}
+
+	let slots2 = slots.filter(slot => slot.eventId === b.eventId);
 	// otherwise, attempt to swap a and b
 	return trySwap(slots1, slots2);
 }
@@ -559,11 +561,3 @@ export function algo(courses) {
 	},
 ]
 */
-
-async function test() {
-	let courses = await getCourses();
-	//let course = courses['MhfSenYDsYh4b6G41hmsk1KKcxF2'][0];
-	let timetable = algo(courses);
-	console.log(timetable);
-	setEvents(timetable);
-}

@@ -7,12 +7,21 @@ function randomInteger(min, max) {
 
 function course() {
 	return {
+		uid: randomString(),
 		subj_name: randomString(),
 		subj_code: randomString(),
 		student_count: randomInteger(0, 1000),
 		cbl_hours: randomInteger(0, 12) * 0.5,
 		lecture_hours: randomInteger(0, 12) * 0.5,
-		merged_lectures: true,
+		merged_lectures: randomInteger(0, 1) == 0 ? false : true,
 	};
 }
 
+export function getCourses(n = 10) {
+	let courses = {};
+	for (let i=0; i<n; i++) {
+		let c = course();
+		courses[c.uid] = [c];
+	}
+	return courses;
+}

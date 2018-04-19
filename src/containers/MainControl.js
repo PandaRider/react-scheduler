@@ -14,6 +14,8 @@ import ChatWidget from '../containers/ChatWidget';
 import '../styles/styles.css';
 import '../styles/MainControl.css';
 
+require('../utils/TestAlgo');
+
 const TIMETABLE = 0;
 const CLASSES = 1;
 const CHAT = 2;
