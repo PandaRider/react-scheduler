@@ -17,7 +17,7 @@ class ChatWidget extends Component {
       messages: null,
     };
   }
-  // TODO: differentiate prof and admin chat bubbles
+
   componentDidMount() {
     const ref = firebaseApp.database().ref('chat/').child('MhfSenYDsYh4b6G41hmsk1KKcxF2');
     const isAdmin = this.props.isAdmin;
@@ -26,24 +26,33 @@ class ChatWidget extends Component {
     ref.on('child_added', (snapshot) => {
       const { userType, message } = snapshot.val();
       console.log(message);
-      userType === isAdmin ? addUserMessage(message) : addResponseMessage(message);
+      if (userType !== isAdmin) addResponseMessage(message);
+      // userType === isAdmin ? addUserMessage(message) : addResponseMessage(message);
       // TODO: call action and save all messages to redux state.
       // return element?
-      msgArr.push(message);
+      msgArr.push({ userType, message });
     });
-    this.props.initializeMessages(msgArr); // should only execute once...  
+    // console.log(`arr size is : ${msgArr.length}`);
+    // msgArr.map((m) => {
+    //   console.log('here');
+    //   let { userType, message } = m;
+    //   userType === isAdmin ? addUserMessage(message) : addResponseMessage(message);
+    // })
+
+    // this.props.initializeMessages(msgArr); // should only execute once...  
   }
 
   // warning: future deprecatation
   componentWillReceiveProps(nextProps) {
     // basically, the props will return the entire message array
     // it is the props change that will invoke the addUserMessage function
+    console.log(`my new props is: ${nextProps.messages}`);
     const newMessages = _.difference(nextProps.messages, this.props.messages);
     if (newMessages !== []) {
       newMessages.map((msg) => {
         console.log(`"isAdmin" props is: ${this.props.isAdmin}`);
-        if (msg.userType !== this.props.isAdmin) addUserMessage(msg);
-        // hopefully, this.props.isAdmin can be read. If not, "this" context may be lost (undefined).
+        if (msg.userType !== this.props.isAdmin) addUserMessage(msg); // wait what is this supposed to do again?
+        
       });
     }
   }
