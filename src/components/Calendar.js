@@ -127,11 +127,11 @@ class CalendarWrapper extends Component {
   eventStyle = (event) => {
     let backgroundColor = '#3174ad';
     if (event.uid === 'test') backgroundColor = '#4caf50';
-    else if (event.uid === 'prof1') backgroundColor = '#808080';
+    else if (event.uid === 'v8tfZDdZZTN1jULAal5AYIfdZ4s2') backgroundColor = '#808080';
 
     let borderColor = '#265985';
     if (event.uid === 'test') borderColor = '#087f23';
-    else if (event.uid === 'prof1') borderColor = '#000000'
+    else if (event.uid === 'v8tfZDdZZTN1jULAal5AYIfdZ4s2') borderColor = '#000000'
 
     let borderWidth = event.type === 'Lecture' ? 3 : 1;
 
