@@ -53,13 +53,7 @@ class ChatWidget extends Component {
 
   handleNewUserMessage = (newMessage) => {
     console.log(`New message incoming! ${newMessage}`);
-<<<<<<< HEAD
-    setMessage(this.props.isAdmin, newMessage)
-||||||| merged common ancestors
-    setMessage(null, newMessage)
-=======
     setMessage(this.props.isAdmin, newMessage);
->>>>>>> edmunds-new-branch
   }
 
   render() {
