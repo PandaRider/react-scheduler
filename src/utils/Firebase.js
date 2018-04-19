@@ -115,7 +115,7 @@ export function giveFirebaseHaha() {
 export function setMessage(uid, msg) {
   // let ref = firebaseApp.database().ref(CHAT).child('MhfSenYDsYh4b6G41hmsk1KKcxF2').push();
   // ref.set( { message: msg } );
-  let ref = firebaseApp.database().ref(CHAT).child('MhfSenYDsYh4b6G41hmsk1KKcxF2').push({ username: null, text: msg });
+  let ref = firebaseApp.database().ref(CHAT).child('MhfSenYDsYh4b6G41hmsk1KKcxF2').push({ userType: uid, message: msg });
 }
 
 // export function fetchMessages() {

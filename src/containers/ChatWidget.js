@@ -21,7 +21,7 @@ class ChatWidget extends Component {
 
   handleNewUserMessage = (newMessage) => {
     console.log(`New message incoming! ${newMessage}`);
-    setMessage(null, newMessage)
+    setMessage(this.props.isAdmin, newMessage)
   }
 
   mapFirebaseToChat = (uid) => {
