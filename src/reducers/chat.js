@@ -1,5 +1,5 @@
-import { 
-  SET_MESSAGE, 
+import {
+  SET_MESSAGE,
   FETCH_MESSAGES,
   INIT_MESSAGES,
 } from '../actions/types';
@@ -9,25 +9,23 @@ import {
 // }
 
 export default function chat(state = [], action) {
-  switch(action.type) {
+  switch (action.type) {
     case SET_MESSAGE:
       return [
         ...state,
-        action.payload
-      ]
+        action.payload,
+      ];
     case FETCH_MESSAGES:
-      if (state.map(m => m.id).includes(action.id)){
+      if (state.map(m => m.id).includes(action.id)) {
         return state;
       } else {
-        return {
+        return [
           ...state,
-          message: action.payload,
-        }
+          action.payload,
+        ];
       }
     case INIT_MESSAGES:
-      return {
-
-      }
+      return action.payload;
     default:
       return state;
   }

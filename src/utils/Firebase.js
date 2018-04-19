@@ -9,7 +9,7 @@ export const firebaseApp = Firebase.initializeApp(config);
 const COURSES = 'courses/';
 const EVENTS = 'events/';
 const USERS = 'users/';
-const CHAT = 'chat/'
+const CHAT = 'chat/';
 
 function getSnap(ref) {
   return new Promise(resolve => {
