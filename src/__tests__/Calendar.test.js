@@ -1,12 +1,8 @@
 import React from 'react';
-import Calendar from '../components/Calendar';
-import Dialog from '../components/Dialog';
-import { shallow } from 'enzyme';
+import ReactDOM from 'react-dom';
+import AppWithStore from '../AppWithStore';
 
-it('can show dialog when pressed', () => {
-    const wrapper = shallow(<Calendar />);
-    const tabButton = wrapper.find('button');
-    tabButton.simulate('click');
-    expect('tab opens', <Dialog />)
-})
-
+it('renders without crashing', () => {
+  const div = document.createElement('div');
+  ReactDOM.render(<AppWithStore />, div);
+});

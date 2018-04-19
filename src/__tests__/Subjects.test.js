@@ -1,10 +1,8 @@
 import React from 'react';
-import Subjects from '../components/Subjects';
-import TextField from '../components/TextField';
-import { shallow } from 'enzyme';
+import ReactDOM from 'react-dom';
+import AppWithStore from '../AppWithStore';
 
-it('form dialog to pop up', () => {
-    const wrapper = shallow(<Subjects />);
-    const submitButton = wrapper.find('button');
-    expect(submitButton.simulate('click')).toBe(<TextField />);
-})
+it('renders without crashing', () => {
+  const div = document.createElement('div');
+  ReactDOM.render(<AppWithStore />, div);
+});

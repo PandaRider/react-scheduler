@@ -1,12 +1,12 @@
 import Firebase from 'firebase';
 
 import { 
-  SIGN_IN_USER,
+  // SIGN_IN_USER,
   SIGN_OUT_USER,
   AUTH_ERROR,
   AUTH_USER,
   // GET_ADMIN_TOKEN,
-  TEST_FIREBASE,
+  // TEST_FIREBASE,
 } from './types';
 
 export function authUser(uid, isAdmin) {

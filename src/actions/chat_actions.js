@@ -1,5 +1,3 @@
-import Firebase from 'firebase';
-// import { giveFirebaseHaha } from '../utils/Firebase';
 import { firebaseApp } from '../utils/Firebase';
 
 import {

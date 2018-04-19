@@ -1,22 +1,9 @@
 import React from 'react';
-import Menu from '../reducers/menu';
-import { CHANGE_MAIN_TAB, ADD_SUBJECT } from '../types';
+import ReactDOM from 'react-dom';
+import AppWithStore from '../AppWithStore';
 
-describe('Menu reducer', () => {
-    it('should change tabs', () => {
-        expect(
-            Menu(undefined, { type: CHANGE_MAIN_TAB })
-        ).toEqual({
-            tab: true,
-        })
-    })
-    
-    it('should handle signing out', () => {
-        expect(
-            Menu(undefined, { type: ADD_SUBJECT })
-        ).toBeFalsy({
-            subjectName: null,
-        })
-    })
+it('renders without crashing', () => {
+  const div = document.createElement('div');
+  ReactDOM.render(<AppWithStore />, div);
+});
 
-})

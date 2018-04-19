@@ -17,9 +17,9 @@ import '../styles/MainControl.css';
 
 require('../utils/TestAlgo');
 
-const TIMETABLE = 0;
-const CLASSES = 1;
-const CHAT = 2;
+// const TIMETABLE = 0;
+// const CLASSES = 1;
+// const CHAT = 2;
 
 // This is the MainControl "Main" page after the user logs in.
 class MainControl extends Component {
@@ -30,7 +30,10 @@ class MainControl extends Component {
   };
 
   componentDidMount() {
-    let { isAdmin, uid } = this.props;
+    let { 
+      isAdmin, 
+      // uid
+    } = this.props;
     this.props.fetchCourses(isAdmin, null); // TODO - change to this.props.isAdmin - currently is 'undefined'
     this.props.fetchEvents();
   }

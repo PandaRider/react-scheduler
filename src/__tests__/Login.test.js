@@ -1,10 +1,8 @@
 import React from 'react';
-import Login from '../containers/Login';
-import { shallow } from 'enzyme';
+import ReactDOM from 'react-dom';
+import AppWithStore from '../AppWithStore';
 
-it('can log in when pressed', () => {
-    const wrapper = shallow(<Login />);
-    const submitButton = wrapper.find('button');
-    submitButton.simulate('click');
-
-})
+it('renders without crashing', () => {
+  const div = document.createElement('div');
+  ReactDOM.render(<AppWithStore />, div);
+});
