@@ -104,7 +104,7 @@ class ChatWidget extends Component {
         <Widget
           handleNewUserMessage={this.handleNewUserMessage}
           title="Chatroom"
-          subtitle="subtitle"
+          subtitle={`${this.props.isAdmin === 'admin'? 'Prof' : 'Admin'} is online`}
         />
       </div>
     );
