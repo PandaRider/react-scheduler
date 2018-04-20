@@ -79,7 +79,7 @@ class MainControl extends Component {
             </div>  :
           this.props.tab === 1 ?
             <Subjects uid={this.props.uid} />  :
-            <div class="example">
+            <div class="myexample">
               <DnDCalendar events={this._getEvents()}/>
               <ChatWidget isAdmin={this.props.isAdmin}/>
             </div>
