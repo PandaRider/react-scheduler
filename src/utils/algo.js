@@ -302,7 +302,6 @@ function swapSlots(slots, events) {
 		for (let i=shorter.length; i<longer.length; i++) {
 			slots[shortPtr + i].eventId = null;
 		}
-
 		return true;
 	}
 
@@ -525,7 +524,8 @@ export function algo(courses) {
 	let bestTimetable = timetable.slice();
 
 	while (temp > 1) {
-		while (!swapSlots(slots, events));
+		//while (!swapSlots(slots, events));
+		swapSlots(slots, events);
 		let newTimetable = processSlots(slots, events);
 
 		let currentScore = score(timetable);
@@ -545,6 +545,7 @@ export function algo(courses) {
 		}
 
 		temp *= 1 - coolingRate;
+		console.log(temp);
 	}
 
 	return assignDates(bestTimetable);
